@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>黑喵的窩</title>
+
+
+    <script src="https://kit.fontawesome.com/70c17f03dd.js" crossorigin="anonymous"></script>
+    <link rel="icon" href="images/j449_7_1.ico"> 
+
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
+    <link rel="stylesheet" href="styles/normalize.css">
+    <link rel="stylesheet" href="styles/style.css">
+
+
+</head>
+<body>
+    <div id="header" class="fixed-div">
+        <nav class="nav">
+            <div class="nav-1">
+                <a href="">
+                    <img src="images/j442_8_9.png" alt="">
+                </a>
+            </div>
+            <div class="nav-2">
+                <ul>
+                    <li>
+                        <a href="">首頁</a>
+                    </li>
+                    <li>
+                        <a href="">商品目錄</a>
+                    </li>
+                    <li>
+                        <a href="">訂單</a>
+                    </li>
+                    <li>
+                        <a href="">登入</a>
+                    </li>
+                    <li style="display: none;">歡迎 ***先生！</li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+       
+
+
+    <div id="wrapper">
+        <!-- 首頁 -->
+        <div id="content">
+            <div class="content-home">
+                <div class="content-00 content-01">
+                    <div class="content-swiper">
+                        <div class="swiper mySwiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <div class="img_box">
+                                        <img src="images/j404_13_1.png" alt="1">
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="img_box">
+                                        <img src="images/j404_13_2.png" alt="2">
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="img_box">
+                                        <img src="images/j404_13_3.png" alt="3">
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="img_box">
+                                        <img src="images/j404_13_4.png" alt="4">
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+    
+                    </div>
+                </div>
+                <div class="content-00 content-02">
+                    <h3>熱門商品</h3>
+                    <div class="content-swiper">
+                        <div class="swiper mySwiper2">
+                            <div class="swiper-wrapper Hot">
+
+                                <div class="swiper-slide" v-for="(item , index) in HotCard" :key="index" :style="item.style">
+                                    <div class="commodity-card">
+                                        <div class="commodity-card-top">
+                                            <img :src="item.img" alt="">
+                                        </div>
+                                        <div class="commodity-card-bottom">
+                                            <h4>{{ item.name }}</h4>
+                                            <h5>{{ item.money }}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="swiper-pagination"></div>
+                          </div>
+                    </div>
+                </div>
+                <div class="content-00 content-03">
+                    <img src="images/j449_13_15.png" alt="">
+                    <br>
+                    <div class="content-text">
+                         <h4>歡慶開幕</h4>
+                         <p>全館商品結帳輸入 <span>LoveMeow</span> 享85折優惠</p>
+                         
+                    </div>
+                </div>
+                <div class="content-00 content-02">
+                    <h3>新品上架</h3>
+                    <div class="content-swiper">
+                        <div class="swiper mySwiper2">
+                            <div class="swiper-wrapper New">
+
+                                <div class="swiper-slide" v-for="(item , index) in NewCard" :key="index" :style="item.style">
+                                    <div class="commodity-card">
+                                        <div class="commodity-card-top">
+                                            <img :src="item.img" alt="">
+                                        </div>
+                                        <div class="commodity-card-bottom">
+                                            <h4>{{ item.name }}</h4>
+                                            <h5>{{ item.money }}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="swiper-pagination"></div>
+                          </div>
+                    </div>
+                </div>
+                <div class="content-00 content-05">
+                    <h3>當前活動</h3>
+                    <div class="content-text">
+                        <a class="content-event" href="">
+                            <div>
+                            <img src="images/j381_6_8.png" alt="">
+                            <h4>會員數爆滿！！10/20-11/30期間多項商品優惠販售。</h4>
+                            </div>
+                        </a>
+                         
+                        <a class="content-event" href="">
+                            <div>
+                            <img src="images/j401_6_3.png" alt="">
+                            <h4>不給糖就搗蛋，國際食品９折優惠中。</h4>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 商品 -->
+        <div id="mall" style="display: none;">
+
+
+        </div>
+        <!-- 訂單 -->
+        <div id="order" style="display: none;">
+
+
+        </div>
+        <!-- 登入 -->
+        <div id="login" style="display: none;">
+
+
+        </div>
+        <!-- 底部 -->
+        <div id="footer">
+            <div class="footer-01">
+                <p>關於黑喵的窩</p>
+                <p>加入我們</p>
+                <p>相關條款</p>
+                <p>隱私權政策</p>
+            </div>
+            <div class="footer-02">
+                <p>聯絡我們</p>
+                <p>TEL:06-78xxxxx</p>
+                <p>Mail:Meow9520@gmail.com</p>
+                <p>地址:XX市XX區</p>
+            </div>
+            <div class="footer-03">
+                <div>
+                    <i class="fa-brands fa-facebook fa-2x"></i>
+                    <i class="fa-brands fa-youtube fa-2x"></i>
+                    <i class="fa-brands fa-github fa-2x"></i>
+                </div>
+                <p>©  rty21785／2022 中文的作品集</p>
+            </div>
+        </div>
+    </div>
+
+
+    
+    <script type="module">
+    import { createApp ,ref} from "https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.40/vue.esm-browser.min.js"
+
+    const HotCommodity = createApp({
+    setup(){
+        const HotCard = ref([
+        {id:"A0001",
+        name:"商品1",
+        img:"images/j449_15_1.png",
+        money:100,
+        },
+        {id:"A0002",
+        name:"商品2",
+        img:"images/j449_15_2.png",
+        money:6100,
+        },
+        {id:"A0001",
+        name:"商品1",
+        img:"images/j449_15_3.png",
+        money:100,
+        },
+        {id:"A0002",
+        name:"商品2",
+        img:"images/j449_15_4.png",
+        money:6100,
+        },
+        {id:"A0001",
+        name:"商品1",
+        img:"images/j449_15_5.png",
+        money:100,
+        },
+        ])
+        return{
+        HotCard,
+        }
+    }
+    }).mount(".Hot")
+
+    const NewCommodity = createApp({
+    setup(){
+        const NewCard = ref([
+        {id:"A0001",
+        name:"商品1",
+        img:"images/j449_15_5.png",
+        money:100,
+        },
+        {id:"A0002",
+        name:"商品2",
+        img:"images/j449_15_4.png",
+        money:6100,
+        },
+        {id:"A0001",
+        name:"商品1",
+        img:"images/j449_15_2.png",
+        money:100,
+        },
+        {id:"A0002",
+        name:"商品2",
+        img:"images/j449_15_1.png",
+        money:6100,
+        },
+        {id:"A0001",
+        name:"商品1",
+        img:"images/j449_15_3.png",
+        money:100,
+        },
+        ])
+        return{
+        NewCard,
+        }
+    }
+    }).mount(".New")
+
+
+
+
+
+
+
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-app.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyD34xPhJqs3heZUCKmGvc5E-5PBvD-KE4c",
+        authDomain: "mallpractise-cca1b.firebaseapp.com",
+        projectId: "mallpractise-cca1b",
+        storageBucket: "mallpractise-cca1b.appspot.com",
+        messagingSenderId: "543243109029",
+        appId: "1:543243109029:web:ee72f293bbfd843319434c"
+    };
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    </script>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script type="text/javascript" src="scripts/script.js"></script>
+
+
+</body>
+</html>
