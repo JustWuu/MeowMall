@@ -22,4 +22,14 @@ window.onload = function(){
     //   disableOnInteraction: false,
     // },
   });
+
+  var swiper3 = new Swiper(".mySwiper3", {
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+      renderBullet: function (index, className) {
+        return '<span class="' + className + '">' + (index + 1) + "</span>";
+      },
+    },
+  });
 }

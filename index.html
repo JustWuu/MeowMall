@@ -18,38 +18,42 @@
 
 </head>
 <body>
-    <div id="header" class="fixed-div">
-        <nav class="nav">
-            <div class="nav-1">
-                <a href="">
-                    <img src="images/j442_8_9.png" alt="">
-                </a>
-            </div>
-            <div class="nav-2">
-                <ul>
-                    <li>
-                        <a href="">首頁</a>
-                    </li>
-                    <li>
-                        <a href="">商品目錄</a>
-                    </li>
-                    <li>
-                        <a href="">訂單</a>
-                    </li>
-                    <li>
-                        <a href="">登入</a>
-                    </li>
-                    <li style="display: none;">歡迎 ***先生！</li>
-                </ul>
-            </div>
-        </nav>
-    </div>
        
 
 
     <div id="wrapper">
+        <div id="header" class="fixed-div">
+            <nav class="nav">
+                <div class="nav-1">
+                    <a href="">
+                        <img src="images/j442_8_9.png" alt="">
+                    </a>
+                </div>
+                <div class="nav-2">
+                    <ul>
+                        <li>
+                            <a href="#content" @click="page = 'content' ">首頁</a>
+                        </li>
+                        <li>
+                            <a href="#mall" @click="page = 'mall' ">商品目錄</a>
+                        </li>
+                        <li>
+                            <a href="#order" @click="page = 'order' ">訂單</a>
+                        </li>
+                        <li>
+                            <a href="#login" @click="page = 'login' ">登入</a>
+                        </li>
+                        <li style="display: none;">歡迎 ***先生！</li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+
+
+
         <!-- 首頁 -->
-        <div id="content">
+        <div id="content" class="page" :class="{ display_none:page !== 'content'}">
             <div class="content-home">
                 <div class="content-00 content-01">
                     <div class="content-swiper">
@@ -159,39 +163,214 @@
             </div>
         </div>
         <!-- 商品 -->
-        <div id="mall" style="display: none;">
+        <div id="mall" class="page" :class="{ display_none:page !== 'mall'}">
+            <div class="mall-home">
+                <div class="mall-swiper">
+                    <div class="swiper mySwiper3">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <div class="img_box">
+                                <img src="images/j448_10_1.png" alt="1">
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="img_box">
+                                <img src="images/j448_10_1.png" alt="1">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                      </div>
+                </div>  
+
+                <div class="mall-list">
+                    <div class="mall-list-01">
+                        <ul>
+                            <li>全部商品</li>
+                            <li>3C商品</li>
+                            <li>食品</li>
+                            <li>書籍</li>
+                            <li>居家百貨</li>
+                            <li>寵物用品</li>
+                        </ul>
+                    </div>
+                    <div class="mall-list-02">
+                        <input type="text">
+                    </div>
+                </div>
+
+                <div class="mall-catalog">
+                    <div class="commodity-catalog">
+
+                        <div class="commodity">
+                            <div>
+                                <img src="" alt="">
+                            </div>
+                            <div>
+                                <h5>商品名稱</h5>
+                                <span>90$</span>
+                                <p>100$</p>
+                            </div>
+                            <div>
+                                <button>詳細</button>
+                                <button>購買</button>
+                            </div>
+                        </div>
 
 
+                        <div class="commodity">
+                            <div>
+                                <img src="" alt="">
+                            </div>
+                            <div>
+                                <h5>商品名稱</h5>
+                                <span>90$</span>
+                                <p>100$</p>
+                            </div>
+                            <div>
+                                <button>詳細</button>
+                                <button>購買</button>
+                            </div>
+                        </div>
+
+                        <div class="commodity">
+                            <div>
+                                <img src="" alt="">
+                            </div>
+                            <div>
+                                <h5>商品名稱</h5>
+                                <span>90$</span>
+                                <p>100$</p>
+                            </div>
+                            <div>
+                                <button>詳細</button>
+                                <button>購買</button>
+                            </div>
+                        </div>
+
+                        <div class="commodity">
+                            <div>
+                                <img src="" alt="">
+                            </div>
+                            <div>
+                                <h5>商品名稱</h5>
+                                <span>90$</span>
+                                <p>100$</p>
+                            </div>
+                            <div>
+                                <button>詳細</button>
+                                <button>購買</button>
+                            </div>
+                        </div>
+
+                        <div class="commodity">
+                            <div>
+                                <img src="" alt="">
+                            </div>
+                            <div>
+                                <h5>商品名稱</h5>
+                                <span>90$</span>
+                                <p>100$</p>
+                            </div>
+                            <div>
+                                <button>詳細</button>
+                                <button>購買</button>
+                            </div>
+                        </div>
+
+                        <div class="commodity">
+                            <div>
+                                <img src="" alt="">
+                            </div>
+                            <div>
+                                <h5>商品名稱</h5>
+                                <span>90$</span>
+                                <p>100$</p>
+                            </div>
+                            <div>
+                                <button>詳細</button>
+                                <button>購買</button>
+                            </div>
+                        </div>
+
+                        <div class="commodity">
+                            <div>
+                                <img src="" alt="">
+                            </div>
+                            <div>
+                                <h5>商品名稱</h5>
+                                <span>90$</span>
+                                <p>100$</p>
+                            </div>
+                            <div>
+                                <button>詳細</button>
+                                <button>購買</button>
+                            </div>
+                        </div>
+
+                        <div class="commodity">
+                            <div>
+                                <img src="" alt="">
+                            </div>
+                            <div>
+                                <h5>商品名稱</h5>
+                                <span>90$</span>
+                                <p>100$</p>
+                            </div>
+                            <div>
+                                <button>詳細</button>
+                                <button>購買</button>
+                            </div>
+                        </div>
+
+                        <div class="commodity">
+                            <div>
+                                <img src="" alt="">
+                            </div>
+                            <div>
+                                <h5>商品名稱</h5>
+                                <span>90$</span>
+                                <p>100$</p>
+                            </div>
+                            <div>
+                                <button>詳細</button>
+                                <button>購買</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- 訂單 -->
-        <div id="order" style="display: none;">
-
-
+        <div id="order" class="page" :class="{ display_none:page !== 'order'}">
+            訂單
         </div>
         <!-- 登入 -->
-        <div id="login" style="display: none;">
-
-
+        <div id="login" class="page" :class="{ display_none:page !== 'login'}">
+            登入
         </div>
         <!-- 底部 -->
         <div id="footer">
-            <div class="footer-01">
-                <p>關於黑喵的窩</p>
-                <p>加入我們</p>
-                <p>相關條款</p>
-                <p>隱私權政策</p>
-            </div>
-            <div class="footer-02">
-                <p>聯絡我們</p>
-                <p>TEL:06-78xxxxx</p>
-                <p>Mail:Meow9520@gmail.com</p>
-                <p>地址:XX市XX區</p>
+            <div class="footer-00">
+                <div class="footer-01">
+                    <p>關於黑喵的窩</p>
+                    <p>加入我們</p>
+                    <p>相關條款</p>
+                    <p>隱私權政策</p>
+                </div>
+                <div class="footer-02">
+                    <p>聯絡我們</p>
+                    <p>TEL:06-78xxxxx</p>
+                    <p>Mail:Meow9520@gmail.com</p>
+                    <p>地址:XX市XX區</p>
+                </div>
             </div>
             <div class="footer-03">
                 <div>
                     <i class="fa-brands fa-facebook fa-2x"></i>
                     <i class="fa-brands fa-youtube fa-2x"></i>
-                    <i class="fa-brands fa-github fa-2x"></i>
+                    <a href="https://github.com/JustWuu" target="_blank"><i class="fa-brands fa-github fa-2x"></i></a>
                 </div>
                 <p>©  rty21785／2022 中文的作品集</p>
             </div>
@@ -203,77 +382,78 @@
     <script type="module">
     import { createApp ,ref} from "https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.40/vue.esm-browser.min.js"
 
-    const HotCommodity = createApp({
-    setup(){
-        const HotCard = ref([
-        {id:"A0001",
-        name:"商品1",
-        img:"images/j449_15_1.png",
-        money:100,
-        },
-        {id:"A0002",
-        name:"商品2",
-        img:"images/j449_15_2.png",
-        money:6100,
-        },
-        {id:"A0001",
-        name:"商品1",
-        img:"images/j449_15_3.png",
-        money:100,
-        },
-        {id:"A0002",
-        name:"商品2",
-        img:"images/j449_15_4.png",
-        money:6100,
-        },
-        {id:"A0001",
-        name:"商品1",
-        img:"images/j449_15_5.png",
-        money:100,
-        },
-        ])
-        return{
-        HotCard,
+    const NewApp = createApp({
+        setup(){
+            // 首頁
+            const page = ref('mall')
+            const HotCard = ref([
+            {id:"A0001",
+            name:"商品1",
+            img:"images/j449_15_1.png",
+            money:100,
+            },
+            {id:"A0002",
+            name:"商品2",
+            img:"images/j449_15_2.png",
+            money:6100,
+            },
+            {id:"A0001",
+            name:"商品1",
+            img:"images/j449_15_3.png",
+            money:100,
+            },
+            {id:"A0002",
+            name:"商品2",
+            img:"images/j449_15_4.png",
+            money:6100,
+            },
+            {id:"A0001",
+            name:"商品1",
+            img:"images/j449_15_5.png",
+            money:100,
+            },
+            ])
+            const NewCard = ref([
+            {id:"A0001",
+            name:"商品1",
+            img:"images/j449_15_5.png",
+            money:100,
+            },
+            {id:"A0002",
+            name:"商品2",
+            img:"images/j449_15_4.png",
+            money:6100,
+            },
+            {id:"A0001",
+            name:"商品1",
+            img:"images/j449_15_2.png",
+            money:100,
+            },
+            {id:"A0002",
+            name:"商品2",
+            img:"images/j449_15_1.png",
+            money:6100,
+            },
+            {id:"A0001",
+            name:"商品1",
+            img:"images/j449_15_3.png",
+            money:100,
+            },
+            ])
+            // 首頁結束
+
+            // 商品
+
+
+            // 商品結束
+
+            return{
+                page,
+                HotCard,
+                NewCard,
+            }
         }
-    }
-    }).mount(".Hot")
-
-    const NewCommodity = createApp({
-    setup(){
-        const NewCard = ref([
-        {id:"A0001",
-        name:"商品1",
-        img:"images/j449_15_5.png",
-        money:100,
-        },
-        {id:"A0002",
-        name:"商品2",
-        img:"images/j449_15_4.png",
-        money:6100,
-        },
-        {id:"A0001",
-        name:"商品1",
-        img:"images/j449_15_2.png",
-        money:100,
-        },
-        {id:"A0002",
-        name:"商品2",
-        img:"images/j449_15_1.png",
-        money:6100,
-        },
-        {id:"A0001",
-        name:"商品1",
-        img:"images/j449_15_3.png",
-        money:100,
-        },
-        ])
-        return{
-        NewCard,
-        }
-    }
-    }).mount(".New")
-
-
+    }).mount("#wrapper")
 
 
 
