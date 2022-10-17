@@ -17,7 +17,7 @@ body{
             }
             img{
                 max-width: 100%;
-                max-height: 80px;
+                max-height: 60px;
             }  
         }
 
@@ -292,24 +292,43 @@ body{
             margin-bottom: auto;
             .mall-list-01{
                 padding: 0 20px 0 20px;
+                border-radius: 5px;
+                .mall_list_use{
+                    background: rgb(152, 152, 211);
+                    color: white;
+                }
                 ul{
                     padding: 0;
                     list-style: none;
+                    border-radius: 5px;
                     li{
                         padding: 7px;
                         border: 1px solid rgba(0,0,0,.125);
                         text-align: center;
+                        cursor: pointer;
                     }
                     li:hover{
-                        background: rgb(221, 221, 221);
+                        background: rgb(152, 152, 211);
                     }
                 }
             }
             .mall-list-02{
-                padding: 0 24px 0 20px;
+                padding: 0 20px 0 20px;
+                display: flex;
+                border-radius: 5px;
+                div{
+                    width: 20%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background: rgb(212, 212, 212);
+                }
                 input{
-                    width: 100%;
-                    padding:0;
+                    width: 80%;
+                    padding:2px 5px 2px 5px;
+                    font-size: 1.2rem;
+                    color: #49525c;
+                    border: 1px solid #ced4da;
                 }
             }
         }
@@ -317,6 +336,7 @@ body{
             width: 80%;
             margin-top: 30px;
             margin-bottom: 30px;
+            min-height: 600px;
             .commodity-catalog{
                 padding: 0 20px 0 0px;
                 display: flex;
@@ -328,9 +348,80 @@ body{
                     border: 1px solid rgba(0,0,0,.125);
                     margin: 5px;
                     transition: all .3s;
+                    border-radius: 7px;
+                    .commodity-img{
+                        height: 200px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        padding: 10px;
+                        img{
+                            max-width: 100%;
+                            max-height: 100%;
+                            cursor: pointer;
+                        }
+                    }
+                    .commodity-data{
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        flex-wrap: wrap;
+                        height: 90px;
+                        padding: 0 10px 0 10px;
+                        h4{
+                            margin: 0;
+                            width: 100%;
+                            font-size: 1.1rem;
+                        }
+                        span{
+                            font-size: 1.5rem;
+                            width: 50%;
+                            padding: 0 0 0 10px;
+                            color: red;
+                        }
+                        p{ 
+                            font-size: 1rem;
+                            text-decoration:line-through;
+                            width: 40%;
+                            margin: 0;
+                            text-align:right;
+                            color: rgb(94, 94, 94);
+                        }
+                    }
+                    .commodity-button{
+                        display: flex;
+                        justify-content: space-around;
+                        align-items: center;
+                        .commodity-button-1{
+                            color: #212529;
+                            background-color: #cccccc;
+                            border:none;
+                        }
+                        .commodity-button-2{
+                            color: white;
+                            background-color: #f58534;
+                            border:none;
+                        } 
+                        .commodity-button-1:hover{
+                            background-color: #adadad;
+                        }
+                        .commodity-button-2:hover{
+                            background-color: #cc661d;
+                        } 
+                        button{
+                            padding: 0.25rem 0.5rem;
+                            font-size: .875rem;
+                            line-height: 1.5;
+                            border-radius: 0.2rem;
+                            margin: 5px;
+                            cursor: pointer;
+                        }
+
+                    }
+                    
                 }
                 .commodity:hover{
-                    box-shadow: 0 15px 20px 0 rgba(48, 55, 66, 0.3);
+                    box-shadow: 0 2px 5px 0 rgba(48, 55, 66, 0.3);
                     transform: translate(0,-5px);
                 }
             }

@@ -186,157 +186,40 @@
                 <div class="mall-list">
                     <div class="mall-list-01">
                         <ul>
-                            <li>全部商品</li>
-                            <li>3C商品</li>
-                            <li>食品</li>
-                            <li>書籍</li>
-                            <li>居家百貨</li>
-                            <li>寵物用品</li>
+                            <li @click="type = 'all' " :class="{ mall_list_use:type == 'all'}">全部商品</li>
+                            <li @click="type = '3c' " :class="{ mall_list_use:type == '3c'}">3C商品</li>
+                            <li @click="type = 'food' " :class="{ mall_list_use:type == 'food'}">食品</li>
+                            <li @click="type = 'book' " :class="{ mall_list_use:type == 'book'}">書籍</li>
+                            <li @click="type = 'lift' " :class="{ mall_list_use:type == 'lift'}">居家百貨</li>
+                            <li @click="type = 'pet' " :class="{ mall_list_use:type == 'pet'}">寵物用品</li>
                         </ul>
                     </div>
                     <div class="mall-list-02">
-                        <input type="text">
+                        <div><i class="fa-solid fa-magnifying-glass"></i></div>
+                        <input type="text" v-model.lazy.trim="Search">
                     </div>
                 </div>
 
                 <div class="mall-catalog">
                     <div class="commodity-catalog">
 
-                        <div class="commodity">
-                            <div>
-                                <img src="" alt="">
+
+                        <div class="commodity"  v-for="(item,index) in filterProducts(Commodity)" :key="index" :class="{ display_none:type !== item.type && type !== 'all'}">
+                            <div class="commodity-img">
+                                <img :src="item.img" alt="">
                             </div>
-                            <div>
-                                <h5>商品名稱</h5>
-                                <span>90$</span>
-                                <p>100$</p>
+                            <div class="commodity-data">
+                                <h4>{{ item.name }}</h4>
+                                <span>${{ item.nprice }}</span>
+                                <p>${{ item.price }}</p>
                             </div>
-                            <div>
-                                <button>詳細</button>
-                                <button>購買</button>
+                            <div class="commodity-button">
+                                <button class="commodity-button-1">詳細內容</button>
+                                <button class="commodity-button-2">加入購物車</button>
                             </div>
                         </div>
 
 
-                        <div class="commodity">
-                            <div>
-                                <img src="" alt="">
-                            </div>
-                            <div>
-                                <h5>商品名稱</h5>
-                                <span>90$</span>
-                                <p>100$</p>
-                            </div>
-                            <div>
-                                <button>詳細</button>
-                                <button>購買</button>
-                            </div>
-                        </div>
-
-                        <div class="commodity">
-                            <div>
-                                <img src="" alt="">
-                            </div>
-                            <div>
-                                <h5>商品名稱</h5>
-                                <span>90$</span>
-                                <p>100$</p>
-                            </div>
-                            <div>
-                                <button>詳細</button>
-                                <button>購買</button>
-                            </div>
-                        </div>
-
-                        <div class="commodity">
-                            <div>
-                                <img src="" alt="">
-                            </div>
-                            <div>
-                                <h5>商品名稱</h5>
-                                <span>90$</span>
-                                <p>100$</p>
-                            </div>
-                            <div>
-                                <button>詳細</button>
-                                <button>購買</button>
-                            </div>
-                        </div>
-
-                        <div class="commodity">
-                            <div>
-                                <img src="" alt="">
-                            </div>
-                            <div>
-                                <h5>商品名稱</h5>
-                                <span>90$</span>
-                                <p>100$</p>
-                            </div>
-                            <div>
-                                <button>詳細</button>
-                                <button>購買</button>
-                            </div>
-                        </div>
-
-                        <div class="commodity">
-                            <div>
-                                <img src="" alt="">
-                            </div>
-                            <div>
-                                <h5>商品名稱</h5>
-                                <span>90$</span>
-                                <p>100$</p>
-                            </div>
-                            <div>
-                                <button>詳細</button>
-                                <button>購買</button>
-                            </div>
-                        </div>
-
-                        <div class="commodity">
-                            <div>
-                                <img src="" alt="">
-                            </div>
-                            <div>
-                                <h5>商品名稱</h5>
-                                <span>90$</span>
-                                <p>100$</p>
-                            </div>
-                            <div>
-                                <button>詳細</button>
-                                <button>購買</button>
-                            </div>
-                        </div>
-
-                        <div class="commodity">
-                            <div>
-                                <img src="" alt="">
-                            </div>
-                            <div>
-                                <h5>商品名稱</h5>
-                                <span>90$</span>
-                                <p>100$</p>
-                            </div>
-                            <div>
-                                <button>詳細</button>
-                                <button>購買</button>
-                            </div>
-                        </div>
-
-                        <div class="commodity">
-                            <div>
-                                <img src="" alt="">
-                            </div>
-                            <div>
-                                <h5>商品名稱</h5>
-                                <span>90$</span>
-                                <p>100$</p>
-                            </div>
-                            <div>
-                                <button>詳細</button>
-                                <button>購買</button>
-                            </div>
-                        </div>
 
                     </div>
                 </div>
@@ -380,7 +263,7 @@
 
     
     <script type="module">
-    import { createApp ,ref} from "https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.40/vue.esm-browser.min.js"
+    import { createApp ,ref ,watch} from "https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.40/vue.esm-browser.min.js"
 
     const NewApp = createApp({
         setup(){
@@ -443,14 +326,137 @@
             // 首頁結束
 
             // 商品
+            const type = ref('all')
+            const Commodity = ref([
+            {id:"A0001",
+            name:"書本000001",
+            type:'book',
+            img:"images/j449_15_7.png",
+            price:100,
+            nprice:90,
+            },
+            {id:"A0002",
+            name:"書本000002",
+            type:'book',
+            img:"images/j449_15_2.png",
+            price:60,
+            nprice:290,
+            },
+            {id:"A0001",
+            name:"電子產品00001",
+            type:'3c',
+            img:"images/j449_15_8.png",
+            price:100,
+            nprice:790,
+            },
+            {id:"A0002",
+            name:"書本000003",
+            type:'book',
+            img:"images/j449_15_4.png",
+            price:6100,
+            nprice:590,
+            },
+            {id:"A0001",
+            name:"電子產品00002",
+            type:'3c',
+            img:"images/j449_15_5.png",
+            price:100,
+            nprice:910,
+            },
+            {id:"A0001",
+            name:"食品00001",
+            type:'food',
+            img:"images/j449_15_1.png",
+            price:1020,
+            nprice:910,
+            },
+            {id:"A0001",
+            name:"寵物00004",
+            type:'pet',
+            img:"images/j449_15_2.png",
+            price:1020,
+            nprice:910,
+            },
+            {id:"A0001",
+            name:"食品00002",
+            type:'food',
+            img:"images/j449_15_3.png",
+            price:1020,
+            nprice:910,
+            },
+            {id:"A0001",
+            name:"食品00003",
+            type:'food',
+            img:"images/j449_15_1.png",
+            price:1020,
+            nprice:910,
+            },
+            {id:"A0001",
+            name:"寵物00003",
+            type:'pet',
+            img:"images/j449_15_3.png",
+            price:1020,
+            nprice:910,
+            },
+            {id:"A0001",
+            name:"居家00001",
+            type:'lift',
+            img:"images/j449_15_8.png",
+            price:1020,
+            nprice:910,
+            },
+            {id:"A0001",
+            name:"居家00002",
+            type:'lift',
+            img:"images/j449_15_6.png",
+            price:1020,
+            nprice:910,
+            },
+            {id:"A0001",
+            name:"寵物00002",
+            type:'pet',
+            img:"images/j449_15_8.png",
+            price:1020,
+            nprice:910,
+            },
+            {id:"A0001",
+            name:"居家00003",
+            type:'lift',
+            img:"images/j449_15_3.png",
+            price:1020,
+            nprice:910,
+            },
+            {id:"A0001",
+            name:"居家00004",
+            type:'lift',
+            img:"images/j449_15_1.png",
+            price:1020,
+            nprice:910,
+            },
+            {id:"A0001",
+            name:"寵物00001",
+            type:'pet',
+            img:"images/j449_15_4.png",
+            price:1020,
+            nprice:910,
+            },
+            ])
 
+            const Search = ref('')
 
+            function filterProducts(Commodity) {
+                return Commodity.filter(Commodity => Commodity.name.match(Search.value));
+            }
             // 商品結束
 
             return{
                 page,
                 HotCard,
                 NewCard,
+                Commodity,
+                type,
+                Search,
+                filterProducts,
             }
         }
     }).mount("#wrapper")
