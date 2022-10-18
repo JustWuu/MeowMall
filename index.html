@@ -35,7 +35,7 @@
                             <a href="#content" @click="page = 'content' ">首頁</a>
                         </li>
                         <li>
-                            <a href="#mall" @click="page = 'mall' ">商品目錄</a>
+                            <a href="#mall" @click="page = 'mall' , getdata()">商品目錄</a>
                         </li>
                         <li>
                             <a href="#order" @click="page = 'order' ">訂單</a>
@@ -184,13 +184,19 @@
                 </div>  
 
                 <div class="mall-list">
+                    
+                    <button @click="NowAdd = true" class="gm-add" :class="{ display_none:UserMod !== 'GM'}">
+                        新增商品
+                    </button>
+
+
                     <div class="mall-list-01">
                         <ul>
                             <li @click="type = 'all' " :class="{ mall_list_use:type == 'all'}">全部商品</li>
                             <li @click="type = '3c' " :class="{ mall_list_use:type == '3c'}">3C商品</li>
                             <li @click="type = 'food' " :class="{ mall_list_use:type == 'food'}">食品</li>
                             <li @click="type = 'book' " :class="{ mall_list_use:type == 'book'}">書籍</li>
-                            <li @click="type = 'lift' " :class="{ mall_list_use:type == 'lift'}">居家百貨</li>
+                            <li @click="type = 'life' " :class="{ mall_list_use:type == 'life'}">居家百貨</li>
                             <li @click="type = 'pet' " :class="{ mall_list_use:type == 'pet'}">寵物用品</li>
                         </ul>
                     </div>
@@ -198,13 +204,18 @@
                         <div><i class="fa-solid fa-magnifying-glass"></i></div>
                         <input type="text" v-model.lazy.trim="Search">
                     </div>
+
                 </div>
 
                 <div class="mall-catalog">
                     <div class="commodity-catalog">
 
 
-                        <div class="commodity"  v-for="(item,index) in filterProducts(Commodity)" :key="index" :class="{ display_none:type !== item.type && type !== 'all'}">
+                        <div class="commodity"  v-for="item in filterProducts(Commodity)" :key="item.id" :class="{ display_none:type !== item.type && type !== 'all'}">
+                            <div class="gm-button" :class="{ display_none:UserMod !== 'GM'}">
+                                <div @click="edit = true, UseEdit(item.id), UpdataID = item.id" class="gm-edit"><i class="fa-solid fa-gear fa-2x"></i></div>
+                                <div @click="removeCommodity(item.id), getdata()" class="gm-remove"><i class="fa-solid fa-bomb fa-2x"></i></div>
+                            </div>
                             <div class="commodity-img">
                                 <img :src="item.img" alt="">
                             </div>
@@ -219,15 +230,64 @@
                             </div>
                         </div>
 
+                        <div class="gm-edit-scene" :class="{ display_none:!edit && !NowAdd}">
+                            <div class="gm-commodity" :class="{ display_none:!edit}">
+                                <span>您正在編輯，編號：{{UpdataID}} 商品</span>
+                                <p>商品圖片</p>
+                                <input v-model="UpdataImg" type="text">
+                                <p>商品名稱</p>
+                                <input v-model="UpdataName" type="text">
+                                <p>商品類別</p>
+                                <select v-model.lazy.trim="UpdataType">
+                                    <option value="3c">3C商品</option>
+                                    <option value="food">食品</option>
+                                    <option value="book">書籍</option>
+                                    <option value="life">居家百貨</option>
+                                    <option value="pet">寵物用品</option>
+                                </select>
+                                <p>商品原價</p>
+                                <input v-model="UpdataPrice" type="number">
+                                <p>商品售價</p>
+                                <input v-model="UpdataNPrice" type="number">
+                                <button @click="editCommodity(UpdataID), edit = false">完成編輯</button>
+                                <button @click="edit = false">取消編輯</button>
+                            </div>
 
+                            <div class="gm-commodity" :class="{ display_none:!NowAdd}">
+                                <span>您正在新增商品...</span>
+                                <p>商品編號</p>
+                                <input placeholder="商品ID" type="text" v-model.lazy.trim="CommodityID">
+                                <p>商品名稱</p>
+                                <input placeholder="商品name" type="text" v-model.lazy.trim="CommodityName">
+                                <p>商品類別</p>
+                                <select v-model.lazy.trim="CommodityType">
+                                    <option value="3c">3C商品</option>
+                                    <option value="food">食品</option>
+                                    <option value="book">書籍</option>
+                                    <option value="life">居家百貨</option>
+                                    <option value="pet">寵物用品</option>
+                                </select>
+                                <p>商品圖片</p>
+                                <input placeholder="商品img" type="text" v-model.lazy.trim="CommodityImg">
+                                <p>商品原價</p>
+                                <input placeholder="商品原價" type="number" v-model.lazy.trim="CommodityPrice">
+                                <p>商品售價</p>
+                                <input placeholder="商品價格" type="number" v-model.lazy.trim="CommodityNPrice">
+                                <button @click="setbase(), NowAdd = false">新增商品</button>
+                                <button @click="NowAdd = false">取消新增</button>
+                            </div>
+
+                        </div>
 
                     </div>
                 </div>
             </div>
         </div>
+
         <!-- 訂單 -->
         <div id="order" class="page" :class="{ display_none:page !== 'order'}">
-            訂單
+
+
         </div>
         <!-- 登入 -->
         <div id="login" class="page" :class="{ display_none:page !== 'login'}">
@@ -263,8 +323,29 @@
 
     
     <script type="module">
-    import { createApp ,ref ,watch} from "https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.40/vue.esm-browser.min.js"
 
+    //firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-app.js";
+    import { getDatabase, set, get, child, update, remove, ref as fireref, } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-database.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyD34xPhJqs3heZUCKmGvc5E-5PBvD-KE4c",
+        authDomain: "mallpractise-cca1b.firebaseapp.com",
+        projectId: "mallpractise-cca1b",
+        storageBucket: "mallpractise-cca1b.appspot.com",
+        messagingSenderId: "543243109029",
+        appId: "1:543243109029:web:ee72f293bbfd843319434c"
+    };
+    // Initialize Firebase
+    const firebase = initializeApp(firebaseConfig);
+    const db = getDatabase();
+
+    //firebase
+
+
+
+    // Vue
+    import { createApp ,ref ,watch ,onMounted} from "https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.40/vue.esm-browser.min.js"
     const NewApp = createApp({
         setup(){
             // 首頁
@@ -327,127 +408,148 @@
 
             // 商品
             const type = ref('all')
-            const Commodity = ref([
-            {id:"A0001",
-            name:"書本000001",
-            type:'book',
-            img:"images/j449_15_7.png",
-            price:100,
-            nprice:90,
-            },
-            {id:"A0002",
-            name:"書本000002",
-            type:'book',
-            img:"images/j449_15_2.png",
-            price:60,
-            nprice:290,
-            },
-            {id:"A0001",
-            name:"電子產品00001",
-            type:'3c',
-            img:"images/j449_15_8.png",
-            price:100,
-            nprice:790,
-            },
-            {id:"A0002",
-            name:"書本000003",
-            type:'book',
-            img:"images/j449_15_4.png",
-            price:6100,
-            nprice:590,
-            },
-            {id:"A0001",
-            name:"電子產品00002",
-            type:'3c',
-            img:"images/j449_15_5.png",
-            price:100,
-            nprice:910,
-            },
-            {id:"A0001",
-            name:"食品00001",
-            type:'food',
-            img:"images/j449_15_1.png",
-            price:1020,
-            nprice:910,
-            },
-            {id:"A0001",
-            name:"寵物00004",
-            type:'pet',
-            img:"images/j449_15_2.png",
-            price:1020,
-            nprice:910,
-            },
-            {id:"A0001",
-            name:"食品00002",
-            type:'food',
-            img:"images/j449_15_3.png",
-            price:1020,
-            nprice:910,
-            },
-            {id:"A0001",
-            name:"食品00003",
-            type:'food',
-            img:"images/j449_15_1.png",
-            price:1020,
-            nprice:910,
-            },
-            {id:"A0001",
-            name:"寵物00003",
-            type:'pet',
-            img:"images/j449_15_3.png",
-            price:1020,
-            nprice:910,
-            },
-            {id:"A0001",
-            name:"居家00001",
-            type:'lift',
-            img:"images/j449_15_8.png",
-            price:1020,
-            nprice:910,
-            },
-            {id:"A0001",
-            name:"居家00002",
-            type:'lift',
-            img:"images/j449_15_6.png",
-            price:1020,
-            nprice:910,
-            },
-            {id:"A0001",
-            name:"寵物00002",
-            type:'pet',
-            img:"images/j449_15_8.png",
-            price:1020,
-            nprice:910,
-            },
-            {id:"A0001",
-            name:"居家00003",
-            type:'lift',
-            img:"images/j449_15_3.png",
-            price:1020,
-            nprice:910,
-            },
-            {id:"A0001",
-            name:"居家00004",
-            type:'lift',
-            img:"images/j449_15_1.png",
-            price:1020,
-            nprice:910,
-            },
-            {id:"A0001",
-            name:"寵物00001",
-            type:'pet',
-            img:"images/j449_15_4.png",
-            price:1020,
-            nprice:910,
-            },
-            ])
-
+            const Commodity = ref([])
             const Search = ref('')
-
             function filterProducts(Commodity) {
                 return Commodity.filter(Commodity => Commodity.name.match(Search.value));
             }
+            
             // 商品結束
+
+            // 取得firebase商品資料
+                // 初始資料
+            onMounted(()=>{
+                const dbref = fireref(db)
+                get(child(dbref,"Commodity")).then((snapsoht)=>{
+                    if(snapsoht.exists()){
+                        const data = snapsoht.val()
+                        const snapsohtData = []
+                        for (let item in data){
+                            snapsohtData.push(data[item])
+                        }
+                        Commodity.value = snapsohtData
+                    }else{
+                        console.log("沒有任何商品...")
+                    }
+                })
+                .catch((error)=>{
+                    alert("資料存取錯誤")
+                })
+            })
+            
+                // 點擊更新資料
+            function getdata(){
+                const dbref = fireref(db)
+                get(child(dbref,"Commodity")).then((snapsoht)=>{
+                    if(snapsoht.exists()){
+                        const data = snapsoht.val()
+                        const snapsohtData = []
+                        for (let item in data){
+                            snapsohtData.push(data[item])
+                        }
+                        Commodity.value = snapsohtData
+                        console.log('資料更新')
+                    }else{
+                        const snapsohtData = []
+                        Commodity.value = snapsohtData
+                        alert("沒有任何商品")
+                    }
+                })
+                .catch((error)=>{
+                    alert("資料存取錯誤")
+                })
+            }
+            // 取得firebase商品資料
+
+
+
+
+
+            // 管理員功能
+            const UserMod = ref('GM')
+
+                // 編輯
+            const edit = ref(false)
+            const UpdataID = ref('')
+            const UpdataName = ref('')
+            const UpdataType = ref('')
+            const UpdataImg = ref('')
+            const UpdataPrice =ref()
+            const UpdataNPrice =  ref()
+            function UseEdit(ID){
+                const dbref = fireref(db)
+                get(child(dbref,"Commodity/"+ID)).then((snapsoht)=>{
+                    console.log(snapsoht.val())
+                    UpdataName.value = snapsoht.val().name
+                    UpdataType.value = snapsoht.val().type
+                    UpdataImg.value = snapsoht.val().img
+                    UpdataPrice.value = snapsoht.val().price
+                    UpdataNPrice.value =  snapsoht.val().nprice
+                })
+                .catch((error)=>{
+                    alert("資料存取錯誤")
+                })
+            }
+            function editCommodity(ID){
+                console.log(ID,"編輯")
+                
+                update(fireref(db,"Commodity/"+ID),{
+                    name : UpdataName.value,
+                    type : UpdataType.value,
+                    img : UpdataImg.value,
+                    price : UpdataPrice.value,
+                    nprice : UpdataNPrice.value,
+                })
+                .then(()=>{
+                    alert("編輯完成")
+                    getdata()
+                })
+                .catch((error)=>{
+                    alert("編輯完成")
+                })
+
+            }
+
+                // 刪除
+            function removeCommodity(ID){
+                console.log(ID,"刪除")
+                remove(fireref(db,"Commodity/"+ID))
+                .then(()=>{
+                    alert("移除成功")
+                })
+                .catch((error)=>{
+                    alert("移除失敗")
+                })
+            }
+
+                // 新增商品
+            const NowAdd = ref(false)
+            const CommodityID = ref('')
+            const CommodityName = ref('')
+            const CommodityType = ref('')
+            const CommodityImg = ref('')
+            const CommodityPrice = ref()
+            const CommodityNPrice = ref()
+
+            function setbase(){
+                set(fireref(db,"Commodity/"+CommodityID.value),{
+                    id:CommodityID.value,
+                    name:CommodityName.value,
+                    type:CommodityType.value,
+                    img:CommodityImg.value,
+                    price:CommodityPrice.value,
+                    nprice:CommodityNPrice.value,
+                })
+                .then(()=>{
+                    alert("資料儲存完成")
+                    getdata()
+                })
+                .catch((error)=>{
+                    alert("資料無法儲存")
+                })
+            }
+            // 管理員功能
+
 
             return{
                 page,
@@ -457,28 +559,35 @@
                 type,
                 Search,
                 filterProducts,
+                CommodityID,
+                CommodityName,
+                CommodityType,
+                CommodityImg,
+                CommodityPrice,
+                CommodityNPrice,
+                editCommodity,
+                removeCommodity,
+                setbase,
+                getdata,
+                edit,
+                UpdataID,
+                UpdataName,
+                UpdataType,
+                UpdataImg,
+                UpdataPrice,
+                UpdataNPrice,
+                UseEdit,
+                NowAdd,
+                UserMod,
             }
         }
     }).mount("#wrapper")
+    // Vue
 
-
-
-
-
-
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-app.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyD34xPhJqs3heZUCKmGvc5E-5PBvD-KE4c",
-        authDomain: "mallpractise-cca1b.firebaseapp.com",
-        projectId: "mallpractise-cca1b",
-        storageBucket: "mallpractise-cca1b.appspot.com",
-        messagingSenderId: "543243109029",
-        appId: "1:543243109029:web:ee72f293bbfd843319434c"
-    };
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
     </script>
+
+
+
 
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script type="text/javascript" src="scripts/script.js"></script>
