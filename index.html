@@ -38,7 +38,7 @@
                             <a href="#mall" @click="page = 'mall' , getdata()">商品目錄</a>
                         </li>
                         <li>
-                            <a href="#order" @click="page = 'order' ">訂單</a>
+                            <a href="#order" @click="page = 'order' ">訂單查詢</a>
                         </li>
                         <li>
                             <a href="#login" @click="page = 'login' ">登入</a>
@@ -93,14 +93,19 @@
                         <div class="swiper mySwiper2">
                             <div class="swiper-wrapper Hot">
 
-                                <div class="swiper-slide" v-for="(item , index) in HotCard" :key="index" :style="item.style">
-                                    <div class="commodity-card">
-                                        <div class="commodity-card-top">
+                                <div class="swiper-slide" v-for="item in filterProducts(Commodity)" :key="item.id">
+                                    <div class="commodity"  >
+                                        <div class="commodity-img">
                                             <img :src="item.img" alt="">
                                         </div>
-                                        <div class="commodity-card-bottom">
+                                        <div class="commodity-data">
                                             <h4>{{ item.name }}</h4>
-                                            <h5>{{ item.money }}</h5>
+                                            <span>${{ item.nprice }}</span>
+                                            <p>${{ item.price }}</p>
+                                        </div>
+                                        <div class="commodity-button">
+                                            <button class="commodity-button-1">詳細內容</button>
+                                            <button class="commodity-button-2">加入購物車</button>
                                         </div>
                                     </div>
                                 </div>
@@ -125,14 +130,19 @@
                         <div class="swiper mySwiper2">
                             <div class="swiper-wrapper New">
 
-                                <div class="swiper-slide" v-for="(item , index) in NewCard" :key="index" :style="item.style">
-                                    <div class="commodity-card">
-                                        <div class="commodity-card-top">
+                                <div class="swiper-slide" v-for="item in filterProducts(Commodity)" :key="item.id">
+                                    <div class="commodity"  >
+                                        <div class="commodity-img">
                                             <img :src="item.img" alt="">
                                         </div>
-                                        <div class="commodity-card-bottom">
+                                        <div class="commodity-data">
                                             <h4>{{ item.name }}</h4>
-                                            <h5>{{ item.money }}</h5>
+                                            <span>${{ item.nprice }}</span>
+                                            <p>${{ item.price }}</p>
+                                        </div>
+                                        <div class="commodity-button">
+                                            <button class="commodity-button-1">詳細內容</button>
+                                            <button class="commodity-button-2">加入購物車</button>
                                         </div>
                                     </div>
                                 </div>
@@ -185,7 +195,7 @@
 
                 <div class="mall-list">
                     
-                    <button @click="NowAdd = true" class="gm-add" :class="{ display_none:UserMod !== 'GM'}">
+                    <button @click="NowAdd = true" class="gm-add" :class="{ display_inline_block:UserMod === 'GM'}">
                         新增商品
                     </button>
 
@@ -212,7 +222,7 @@
 
 
                         <div class="commodity"  v-for="item in filterProducts(Commodity)" :key="item.id" :class="{ display_none:type !== item.type && type !== 'all'}">
-                            <div class="gm-button" :class="{ display_none:UserMod !== 'GM'}">
+                            <div class="gm-button" :class="{ display_inline_block:UserMod === 'GM'}">
                                 <div @click="edit = true, UseEdit(item.id), UpdataID = item.id" class="gm-edit"><i class="fa-solid fa-gear fa-2x"></i></div>
                                 <div @click="removeCommodity(item.id), getdata()" class="gm-remove"><i class="fa-solid fa-bomb fa-2x"></i></div>
                             </div>
@@ -230,9 +240,9 @@
                             </div>
                         </div>
 
-                        <div class="gm-edit-scene" :class="{ display_none:!edit && !NowAdd}">
+                        <div class="gm-scene" :class="{ display_flex:edit || NowAdd || editOK || NowAddOK || removeOK}">
                             <div class="gm-commodity" :class="{ display_none:!edit}">
-                                <span>您正在編輯，編號：{{UpdataID}} 商品</span>
+                                <span>您正在編輯，編號：{{UpdataID}} 的商品</span>
                                 <p>商品圖片</p>
                                 <input v-model="UpdataImg" type="text">
                                 <p>商品名稱</p>
@@ -256,9 +266,9 @@
                             <div class="gm-commodity" :class="{ display_none:!NowAdd}">
                                 <span>您正在新增商品...</span>
                                 <p>商品編號</p>
-                                <input placeholder="商品ID" type="text" v-model.lazy.trim="CommodityID">
+                                <input placeholder="商品編號" type="text" v-model.lazy.trim="CommodityID">
                                 <p>商品名稱</p>
-                                <input placeholder="商品name" type="text" v-model.lazy.trim="CommodityName">
+                                <input placeholder="商品名稱" type="text" v-model.lazy.trim="CommodityName">
                                 <p>商品類別</p>
                                 <select v-model.lazy.trim="CommodityType">
                                     <option value="3c">3C商品</option>
@@ -268,13 +278,28 @@
                                     <option value="pet">寵物用品</option>
                                 </select>
                                 <p>商品圖片</p>
-                                <input placeholder="商品img" type="text" v-model.lazy.trim="CommodityImg">
+                                <input placeholder="商品圖片" type="text" v-model.lazy.trim="CommodityImg">
                                 <p>商品原價</p>
                                 <input placeholder="商品原價" type="number" v-model.lazy.trim="CommodityPrice">
                                 <p>商品售價</p>
-                                <input placeholder="商品價格" type="number" v-model.lazy.trim="CommodityNPrice">
+                                <input placeholder="商品售價" type="number" v-model.lazy.trim="CommodityNPrice">
                                 <button @click="setbase(), NowAdd = false">新增商品</button>
                                 <button @click="NowAdd = false">取消新增</button>
+                            </div>
+
+                            <div class="gm-commodity" :class="{ display_none:!NowAddOK}">
+                                <span>商品新增完成</span>
+                                <button @click="NowAddOK = false">OK</button>
+                            </div>
+
+                            <div class="gm-commodity" :class="{ display_none:!editOK}">
+                                <span>商品編輯完成</span>
+                                <button @click="editOK = false">OK</button>
+                            </div>
+
+                            <div class="gm-commodity" :class="{ display_none:!removeOK}">
+                                <span>商品已移除</span>
+                                <button @click="removeOK = false">OK</button>
                             </div>
 
                         </div>
@@ -286,12 +311,35 @@
 
         <!-- 訂單 -->
         <div id="order" class="page" :class="{ display_none:page !== 'order'}">
+            <div class="order-search">
+                <h1>訂單查詢</h3>
+                <div>
+                    <input type="text">
+                    <button class="login-button">送出</button>
+                </div>
+            </div>
 
-
+            
+            <div class="order-order" :class="{ display_none:true}">
+                我是訂單顯示
+            </div>
         </div>
         <!-- 登入 -->
         <div id="login" class="page" :class="{ display_none:page !== 'login'}">
-            登入
+            <div class="login-home">
+                <form action="">
+                <h3>會員登入</h3>
+                <p>會員帳號</p>
+                <input type="text" placeholder="帳號" name="" id="">
+                <span>請輸入帳號！</span>
+                <p>會員密碼</p>
+                <input type="password" placeholder="密碼" name="" id="">
+                <span>請輸入密碼！</span>
+                <button class="login-button">登入</button>
+                <a href="" class="login-register">註冊會員</a>
+                </form>
+            </div>
+            
         </div>
         <!-- 底部 -->
         <div id="footer">
@@ -349,7 +397,7 @@
     const NewApp = createApp({
         setup(){
             // 首頁
-            const page = ref('mall')
+            const page = ref('order')
             const HotCard = ref([
             {id:"A0001",
             name:"商品1",
@@ -466,10 +514,11 @@
 
 
             // 管理員功能
-            const UserMod = ref('GM')
+            const UserMod = ref('')
 
                 // 編輯
             const edit = ref(false)
+            const editOK = ref(false)
             const UpdataID = ref('')
             const UpdataName = ref('')
             const UpdataType = ref('')
@@ -501,21 +550,22 @@
                     nprice : UpdataNPrice.value,
                 })
                 .then(()=>{
-                    alert("編輯完成")
+                    editOK.value = true
                     getdata()
                 })
                 .catch((error)=>{
-                    alert("編輯完成")
+                    alert("編輯失敗")
                 })
 
             }
 
                 // 刪除
+            const removeOK = ref(false)    
             function removeCommodity(ID){
                 console.log(ID,"刪除")
                 remove(fireref(db,"Commodity/"+ID))
                 .then(()=>{
-                    alert("移除成功")
+                    removeOK.value = true
                 })
                 .catch((error)=>{
                     alert("移除失敗")
@@ -524,6 +574,7 @@
 
                 // 新增商品
             const NowAdd = ref(false)
+            const NowAddOK = ref(false)
             const CommodityID = ref('')
             const CommodityName = ref('')
             const CommodityType = ref('')
@@ -541,7 +592,7 @@
                     nprice:CommodityNPrice.value,
                 })
                 .then(()=>{
-                    alert("資料儲存完成")
+                    NowAddOK.value = true
                     getdata()
                 })
                 .catch((error)=>{
@@ -579,6 +630,10 @@
                 UseEdit,
                 NowAdd,
                 UserMod,
+                editOK,
+                NowAddOK,
+                removeOK,
+
             }
         }
     }).mount("#wrapper")
