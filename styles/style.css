@@ -38,6 +38,9 @@ body {
   text-decoration: none;
   color: black;
 }
+#header nav .nav-2 ul li p {
+  display: inline;
+}
 
 .fixed-div {
   position: fixed;
@@ -108,9 +111,6 @@ body {
 #content .content-home .content-01 .swiper .swiper-wrapper .swiper-slide {
   width: 100% !important;
 }
-#content .content-home .content-01 .swiper .swiper-wrapper .swiper-slide .img_box img {
-  width: 100%;
-}
 #content .content-home .content-02 .swiper {
   max-width: 99%;
   height: 100%;
@@ -156,6 +156,10 @@ body {
   margin: 5px;
   color: black;
   text-decoration: none;
+}
+
+.img_box img {
+  width: 100%;
 }
 
 #mall {
@@ -356,6 +360,83 @@ body {
 
 #order {
   padding: 10px 10px 20px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+#order .order-car {
+  width: 100%;
+  border: 1px solid black;
+  padding: 5px 20px 20px 20px;
+}
+#order .order-car .order-commodity {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  border-bottom: 1px solid rgb(179, 179, 179);
+  padding: 5px;
+}
+#order .order-car .order-commodity div {
+  width: 20%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#order .order-car .order-commodity div img {
+  max-width: 100%;
+  max-height: 100%;
+  cursor: pointer;
+}
+#order .order-car .order-commodity h4 {
+  width: 30%;
+  font-size: 1.2rem;
+  margin-left: 30px;
+}
+#order .order-car .order-commodity p {
+  width: 5%;
+  margin: 0 10px 0 10px;
+}
+#order .order-car .order-commodity span {
+  width: 20%;
+  font-size: 1rem;
+}
+#order .order-car .order-commodity button {
+  width: 10%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+#order .order-car .car-checkout {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+#order .order-car .car-checkout p {
+  margin-right: 10px;
+  font-size: 1rem;
+}
+#order .order-car .car-checkout button {
+  color: white;
+  background: #fa6363;
+  border: none;
+  border-radius: 5px;
+  height: 40px;
+  cursor: pointer;
+}
+#order .order-car .car-checkout button:hover {
+  color: white;
+  background: #f52727;
+}
+#order .order-search {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
 }
 #order .order-search h1 {
   width: 100%;
@@ -387,6 +468,9 @@ body {
   background-color: #2f3737;
   border-color: #2f3737;
   height: 100%;
+}
+#order .order-order {
+  width: 100%;
 }
 
 #login {
@@ -545,6 +629,9 @@ body {
 #footer .footer-00 .footer-02 {
   width: 50%;
 }
+#footer .footer-00 .footer-02 p {
+  word-wrap: break-word;
+}
 #footer .footer-03 {
   width: 40%;
   display: flex;
@@ -632,7 +719,7 @@ body {
 }
 @media (max-width: 750px) {
   .page {
-    max-width: 480px;
+    max-width: 98%;
   }
   .content-02 .swiper-slide {
     width: 47% !important;

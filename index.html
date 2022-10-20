@@ -38,7 +38,8 @@
                             <a href="#mall" @click="page = 'mall' , getdata()">商品目錄</a>
                         </li>
                         <li>
-                            <a href="#order" @click="page = 'order' ">訂單查詢</a>
+                            <a href="#order" @click="page = 'order' ">我的訂單</a>
+                            <p> ( {{CarQuantity}} )</p>
                         </li>
                         <li>
                             <a href="#login" @click="page = 'login' ">登入</a>
@@ -236,7 +237,7 @@
                             </div>
                             <div class="commodity-button">
                                 <button class="commodity-button-1">詳細內容</button>
-                                <button class="commodity-button-2">加入購物車</button>
+                                <button class="commodity-button-2" @click="addCar(item.id)">加入購物車</button>
                             </div>
                         </div>
 
@@ -311,6 +312,25 @@
 
         <!-- 訂單 -->
         <div id="order" class="page" :class="{ display_none:page !== 'order'}">
+            <div class="order-car" :class="{ display_none:false}">
+
+                <div class="order-commodity" v-for="(item, key, index) in Car">
+                    <div>
+                        <img :src="item.img" alt="">
+                    </div>
+                    <h4>{{item.name}}</h4>
+                    <p>{{item.quantity}}個</p>
+                    <span>NT ${{item.total}}</span>
+                    <button @click="removeCar(item.id)"><i class="fas fa-trash trash"></i></button>
+                </div>
+
+                <div class="car-checkout">
+                    <p>總計 NT ${{totalMoney}}</p>
+                    <button>結帳</button>
+                </div>
+
+            </div>
+
             <div class="order-search">
                 <h1>訂單查詢</h3>
                 <div>
@@ -319,9 +339,8 @@
                 </div>
             </div>
 
-            
-            <div class="order-order" :class="{ display_none:true}">
-                我是訂單顯示
+            <div class="order-order" :class="{ display_none:false}">
+                我是訂單搜尋
             </div>
         </div>
         <!-- 登入 -->
@@ -330,10 +349,10 @@
                 <form action="">
                 <h3>會員登入</h3>
                 <p>會員帳號</p>
-                <input type="text" placeholder="帳號" name="" id="">
+                <input type="text" placeholder="帳號" name="" id="aa">
                 <span>請輸入帳號！</span>
                 <p>會員密碼</p>
-                <input type="password" placeholder="密碼" name="" id="">
+                <input type="password" placeholder="密碼" name="" id="bb">
                 <span>請輸入密碼！</span>
                 <button class="login-button">登入</button>
                 <a href="" class="login-register">註冊會員</a>
@@ -397,7 +416,7 @@
     const NewApp = createApp({
         setup(){
             // 首頁
-            const page = ref('order')
+            const page = ref('mall')
             const HotCard = ref([
             {id:"A0001",
             name:"商品1",
@@ -510,7 +529,61 @@
             // 取得firebase商品資料
 
 
+            // 購物車
+            const Car = ref([])
+            const CarQuantity = ref(0)
+            const totalMoney = ref(0)
 
+                // 加入購物車
+            function addCar(ID){
+                const addCarCommodity = {quantity:0}
+                for(let i=0;i<Car.value.length;i++){
+                    if(Car.value[i].id === ID){
+                        Car.value[i].quantity += 1
+                        Car.value[i].total = Car.value[i].price * Car.value[i].quantity
+                        CarQuantity.value += 1
+                        total()
+                        return 
+                    }
+                }
+                for(let i=0;i<Commodity.value.length;i++){
+                    if(Commodity.value[i].id === ID){
+                        addCarCommodity.id = Commodity.value[i].id
+                        addCarCommodity.img = Commodity.value[i].img
+                        addCarCommodity.name = Commodity.value[i].name
+                        addCarCommodity.price = Commodity.value[i].nprice
+                        addCarCommodity.quantity += 1
+                        addCarCommodity.total = addCarCommodity.price * addCarCommodity.quantity
+                        Car.value.push(addCarCommodity)
+                        CarQuantity.value += 1
+                        total()
+                        return 
+                    }
+                }
+            }
+
+                // 移除購物車
+            function removeCar(ID){
+                for(let i=0;i<Car.value.length;i++){
+                    if(Car.value[i].id === ID){
+                        CarQuantity.value -= Car.value[i].quantity
+                        Car.value.splice(i,1)
+                        total()
+                    }
+                }
+            }
+
+
+
+                // 結帳
+            function total(){
+                let total = 0
+                for(let i=0;i<Car.value.length;i++){
+                    total = total + Car.value[i].total
+                }    
+                totalMoney.value = total
+            }
+            // 購物車結束
 
 
             // 管理員功能
@@ -633,6 +706,12 @@
                 editOK,
                 NowAddOK,
                 removeOK,
+                addCar,
+                Car,
+                CarQuantity,
+                totalMoney,
+                total,
+                removeCar,
 
             }
         }
