@@ -156,14 +156,14 @@
                 <div class="content-00 content-05">
                     <h3>當前活動</h3>
                     <div class="content-text">
-                        <a class="content-event" href="">
+                        <a class="content-event">
                             <div>
                             <img src="images/j381_6_8.png" alt="">
                             <h4>會員數爆滿！！10/20-11/30期間多項商品優惠販售。</h4>
                             </div>
                         </a>
                          
-                        <a class="content-event" href="">
+                        <a class="content-event">
                             <div>
                             <img src="images/j401_6_3.png" alt="">
                             <h4>不給糖就搗蛋，國際食品９折優惠中。</h4>
@@ -176,6 +176,20 @@
         <!-- 商品 -->
         <div id="mall" class="page" :class="{ display_none:page !== 'mall'}">
             <div class="mall-home">
+
+                <div class="mall-info" :class="{ display_flex:info}" @click="info = false">
+                <div class="info" >
+                    <div class="info-img"><img :src="UpdataImg" alt=" "></div>
+                    <h2>{{UpdataName}}</span>
+                    <h4>{{UpdataInfo}}</h4>
+                    <div class="info-price">
+                        <span>特價 NT ${{UpdataNPrice}}</span>
+                        <p>原價 NT ${{UpdataPrice}}</p>
+                    </div>
+                </div>
+                </div>
+
+
                 <div class="mall-swiper">
                     <div class="swiper mySwiper3">
                         <div class="swiper-wrapper">
@@ -227,19 +241,27 @@
                                 <div @click="edit = true, UseEdit(item.id), UpdataID = item.id" class="gm-edit"><i class="fa-solid fa-gear fa-2x"></i></div>
                                 <div @click="removeCommodity(item.id), getdata()" class="gm-remove"><i class="fa-solid fa-bomb fa-2x"></i></div>
                             </div>
-                            <div class="commodity-img">
-                                <img :src="item.img" alt="">
+                            <div class="commodity-img" @click="UseEdit(item.id), info = true">
+                                <img :src="item.img" alt=" ">
                             </div>
                             <div class="commodity-data">
                                 <h4>{{ item.name }}</h4>
                                 <span>${{ item.nprice }}</span>
-                                <p>${{ item.price }}</p>
+                                <p>{{ item.price }}</p>
                             </div>
                             <div class="commodity-button">
-                                <button class="commodity-button-1">詳細內容</button>
+                                <button class="commodity-button-1" @click="UseEdit(item.id), info = true">詳細內容</button>
                                 <button class="commodity-button-2" @click="addCar(item.id)">加入購物車</button>
                             </div>
                         </div>
+
+
+                        <transition>
+                        <div class="commodity-notice" v-show="isShow">
+                            <p>已加入購物車</p>
+                        </div>
+                        </transition>
+
 
                         <div class="gm-scene" :class="{ display_flex:edit || NowAdd || editOK || NowAddOK || removeOK}">
                             <div class="gm-commodity" :class="{ display_none:!edit}">
@@ -256,6 +278,8 @@
                                     <option value="life">居家百貨</option>
                                     <option value="pet">寵物用品</option>
                                 </select>
+                                <p>商品介紹</p>
+                                <input v-model="UpdataInfo" type="text">
                                 <p>商品原價</p>
                                 <input v-model="UpdataPrice" type="number">
                                 <p>商品售價</p>
@@ -278,6 +302,8 @@
                                     <option value="life">居家百貨</option>
                                     <option value="pet">寵物用品</option>
                                 </select>
+                                <p>商品介紹</p>
+                                <input placeholder="商品介紹" type="text" v-model.lazy.trim="CommodityInfo">
                                 <p>商品圖片</p>
                                 <input placeholder="商品圖片" type="text" v-model.lazy.trim="CommodityImg">
                                 <p>商品原價</p>
@@ -306,6 +332,10 @@
                         </div>
 
                     </div>
+
+
+
+
                 </div>
             </div>
         </div>
@@ -314,15 +344,21 @@
         <div id="order" class="page" :class="{ display_none:page !== 'order'}">
             <div class="order-car" :class="{ display_none:false}">
 
+
                 <div class="order-commodity" v-for="(item, key, index) in Car">
-                    <div>
+                    <div class="order-img">
                         <img :src="item.img" alt="">
                     </div>
                     <h4>{{item.name}}</h4>
-                    <p>{{item.quantity}}個</p>
+                    <div class="order-quantity">
+                        <a @click="removeQuantity(item.id)"><i class="fa-solid fa-minus"></i></a>
+                        <p>{{item.quantity}}個</p>
+                        <a @click="addQuantity(item.id)"><i class="fa-solid fa-plus"></i></a>
+                    </div>
                     <span>NT ${{item.total}}</span>
                     <button @click="removeCar(item.id)"><i class="fas fa-trash trash"></i></button>
                 </div>
+
 
                 <div class="car-checkout">
                     <p>總計 NT ${{totalMoney}}</p>
@@ -529,6 +565,11 @@
             // 取得firebase商品資料
 
 
+            // info顯示
+            const info = ref(false)
+            // info結束
+
+
             // 購物車
             const Car = ref([])
             const CarQuantity = ref(0)
@@ -541,8 +582,8 @@
                     if(Car.value[i].id === ID){
                         Car.value[i].quantity += 1
                         Car.value[i].total = Car.value[i].price * Car.value[i].quantity
-                        CarQuantity.value += 1
                         total()
+                        ShowAddCar()
                         return 
                     }
                 }
@@ -557,24 +598,51 @@
                         Car.value.push(addCarCommodity)
                         CarQuantity.value += 1
                         total()
+                        ShowAddCar()
                         return 
                     }
                 }
             }
-
+                // 數量增加
+                function addQuantity(ID){
+                for(let i=0;i<Car.value.length;i++){
+                    if(Car.value[i].id === ID){
+                        Car.value[i].quantity += 1
+                        Car.value[i].total = Car.value[i].price * Car.value[i].quantity
+                        total()
+                        ShowAddCar()
+                        return 
+                    }
+                }
+            }
+            // 數量減少
+            function removeQuantity(ID){
+                for(let i=0;i<Car.value.length;i++){
+                    if(Car.value[i].id === ID){
+                        if(Car.value[i].quantity === 1){
+                            removeCar(ID)
+                            return 
+                        }else{
+                            Car.value[i].quantity -= 1
+                            Car.value[i].total = Car.value[i].price * Car.value[i].quantity
+                            total()
+                            ShowAddCar()
+                            return 
+                        }
+                        
+                    }
+                }
+            }
                 // 移除購物車
             function removeCar(ID){
                 for(let i=0;i<Car.value.length;i++){
                     if(Car.value[i].id === ID){
-                        CarQuantity.value -= Car.value[i].quantity
+                        CarQuantity.value -= 1
                         Car.value.splice(i,1)
                         total()
                     }
                 }
             }
-
-
-
                 // 結帳
             function total(){
                 let total = 0
@@ -598,6 +666,7 @@
             const UpdataImg = ref('')
             const UpdataPrice =ref()
             const UpdataNPrice =  ref()
+            const UpdataInfo =  ref('')
             function UseEdit(ID){
                 const dbref = fireref(db)
                 get(child(dbref,"Commodity/"+ID)).then((snapsoht)=>{
@@ -607,6 +676,7 @@
                     UpdataImg.value = snapsoht.val().img
                     UpdataPrice.value = snapsoht.val().price
                     UpdataNPrice.value =  snapsoht.val().nprice
+                    UpdataInfo.value =  snapsoht.val().info
                 })
                 .catch((error)=>{
                     alert("資料存取錯誤")
@@ -621,6 +691,7 @@
                     img : UpdataImg.value,
                     price : UpdataPrice.value,
                     nprice : UpdataNPrice.value,
+                    info : UpdataInfo.value,
                 })
                 .then(()=>{
                     editOK.value = true
@@ -654,6 +725,7 @@
             const CommodityImg = ref('')
             const CommodityPrice = ref()
             const CommodityNPrice = ref()
+            const CommodityInfo = ref()
 
             function setbase(){
                 set(fireref(db,"Commodity/"+CommodityID.value),{
@@ -663,6 +735,7 @@
                     img:CommodityImg.value,
                     price:CommodityPrice.value,
                     nprice:CommodityNPrice.value,
+                    info:CommodityInfo.value,
                 })
                 .then(()=>{
                     NowAddOK.value = true
@@ -673,6 +746,14 @@
                 })
             }
             // 管理員功能
+
+            let timeOut
+            const isShow = ref(false)
+            function ShowAddCar(){
+                clearTimeout(timeOut)
+                isShow.value = true
+                timeOut = setTimeout(() => isShow.value = false, 1500)
+            }
 
 
             return{
@@ -689,6 +770,7 @@
                 CommodityImg,
                 CommodityPrice,
                 CommodityNPrice,
+                CommodityInfo,
                 editCommodity,
                 removeCommodity,
                 setbase,
@@ -700,6 +782,7 @@
                 UpdataImg,
                 UpdataPrice,
                 UpdataNPrice,
+                UpdataInfo,
                 UseEdit,
                 NowAdd,
                 UserMod,
@@ -712,6 +795,11 @@
                 totalMoney,
                 total,
                 removeCar,
+                addQuantity,
+                removeQuantity,
+                isShow,
+                ShowAddCar,
+                info,
 
             }
         }

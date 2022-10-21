@@ -197,6 +197,56 @@ body{
         justify-content: center;
         align-items: center;
         flex-wrap:wrap;
+        .mall-info{
+            display: none;
+            justify-content: center;
+            align-items: center;
+            background: rgba(121, 121, 121, 0.623);
+            width: 100%;
+            position: fixed;
+            height: 100%;
+            z-index: 999999;
+            top:0;
+            .info{
+                border: 1px solid rgb(0, 0, 0);
+                width: 300px;
+                padding: 20px 20px 5px 20px;
+                border-radius: 5px;
+                background: rgb(255, 255, 255);
+                h2{
+                    text-align: center;
+                }
+                h4{
+                    text-align: center;
+                    margin: 5px;
+                }
+                .info-img{
+                    height: 200px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    img{
+                        max-width: 100%;
+                        max-height: 100%;
+                    }
+                }
+                .info-price{
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: center;
+                    flex-wrap: nowrap;
+
+                    span{
+                        color: red;
+                        font-size: 1.5rem;
+                    }
+                    p{
+                        text-decoration: line-through;
+                        color: rgb(138, 138, 138);
+                    }
+                }
+            }
+        }
         .mall-swiper{
             width: 100%;
             margin-left: auto;
@@ -310,6 +360,26 @@ body{
                 }
             }
         }
+        .commodity-notice{
+            position: fixed;
+            right: 10px;
+            top:100px;
+            z-index: 99999;
+            background: rgba(123, 240, 123, 0.562);
+            border-radius: 20px;
+            padding: 5px;
+        }
+        .v-enter-active, .v-leave-active {
+            transition: all 1s;
+          }
+          .v-enter-from, .v-leave-to {
+            opacity: 0;
+            right: -20px;
+          }
+          .v-enter-to, .v-leave-from {
+            opacity: 1;
+            right: 10px;
+          }
     }
 }
 
@@ -413,7 +483,7 @@ body{
             height: 100px;
             border-bottom:1px solid rgb(179, 179, 179);
             padding: 5px;
-            div{
+            .order-img{
                 width: 20%;
                 height: 100%;
                 display: flex;
@@ -425,14 +495,28 @@ body{
                     cursor: pointer;    
                 }
             }
+            .order-quantity{
+                display: flex;
+                justify-content: center;
+                align-content: center;
+                margin: 0 60px 0 20px;
+                p{
+                    margin: 5px;
+                    width: auto;
+                }
+                a{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    text-decoration: none;
+                    color: black;
+                    cursor: pointer;
+                }
+            }
             h4{
-                width: 30%;
+                width: 20%;
                 font-size: 1.2rem;
                 margin-left:30px ;
-            }
-            p{
-                width: 5%;
-                margin:0 10px 0 10px;
             }
             span{
                 width: 20%;
@@ -781,15 +865,10 @@ body{
         }
     }
 }
-@media (max-width: 750px) { 
+@media (max-width: 500px) { 
     .page{
         max-width: 98%;
         }
-    .content-02{
-        .swiper-slide {
-        width: 47% !important;
-        }
-    }
     #mall{
         .mall-home{
             .mall-list{
@@ -818,6 +897,15 @@ body{
     
             }
         }
-    }
+        }
+        .order-car{
+            .order-commodity{
+                .order-img{
+                    display: none;
+                }
+            }
+        }
     }
 }
+
+
