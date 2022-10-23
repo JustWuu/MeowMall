@@ -96,17 +96,13 @@
 
                                 <div class="swiper-slide" v-for="item in filterProducts(Commodity)" :key="item.id">
                                     <div class="commodity"  >
-                                        <div class="commodity-img">
-                                            <img :src="item.img" alt="">
+                                        <div class="commodity-img" @click="page = 'mall' , getdata() , type = item.type">
+                                            <img :src="item.img" alt=" ">
                                         </div>
                                         <div class="commodity-data">
                                             <h4>{{ item.name }}</h4>
                                             <span>${{ item.nprice }}</span>
                                             <p>${{ item.price }}</p>
-                                        </div>
-                                        <div class="commodity-button">
-                                            <button class="commodity-button-1">詳細內容</button>
-                                            <button class="commodity-button-2">加入購物車</button>
                                         </div>
                                     </div>
                                 </div>
@@ -133,17 +129,13 @@
 
                                 <div class="swiper-slide" v-for="item in filterProducts(Commodity)" :key="item.id">
                                     <div class="commodity"  >
-                                        <div class="commodity-img">
-                                            <img :src="item.img" alt="">
+                                        <div class="commodity-img" @click="page = 'mall' , getdata() , type = item.type">
+                                            <img :src="item.img" alt=" ">
                                         </div>
                                         <div class="commodity-data">
                                             <h4>{{ item.name }}</h4>
                                             <span>${{ item.nprice }}</span>
                                             <p>${{ item.price }}</p>
-                                        </div>
-                                        <div class="commodity-button">
-                                            <button class="commodity-button-1">詳細內容</button>
-                                            <button class="commodity-button-2">加入購物車</button>
                                         </div>
                                     </div>
                                 </div>
@@ -174,20 +166,32 @@
             </div>
         </div>
         <!-- 商品 -->
+        <!-- load畫面 flex-->
+        <div class="load-scene mall-info" style="display:flex;">
+            <div class="load" >
+                <div style="color: #6481e2" class="la-square-jelly-box la-dark la-2x">
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mall-info" :class="{ display_flex:info}" @click="info = false">
+            <div class="info" >
+                <div class="info-img"><img :src="UpdataImg" alt=" "></div>
+                <h2>{{UpdataName}}</span>
+                <h4>{{UpdataInfo}}</h4>
+                <div class="info-price">
+                    <span>特價 NT ${{UpdataNPrice}}</span>
+                    <p>原價 NT ${{UpdataPrice}}</p>
+                </div>
+            </div>
+            </div>
+
+
         <div id="mall" class="page" :class="{ display_none:page !== 'mall'}">
             <div class="mall-home">
 
-                <div class="mall-info" :class="{ display_flex:info}" @click="info = false">
-                <div class="info" >
-                    <div class="info-img"><img :src="UpdataImg" alt=" "></div>
-                    <h2>{{UpdataName}}</span>
-                    <h4>{{UpdataInfo}}</h4>
-                    <div class="info-price">
-                        <span>特價 NT ${{UpdataNPrice}}</span>
-                        <p>原價 NT ${{UpdataPrice}}</p>
-                    </div>
-                </div>
-                </div>
 
 
                 <div class="mall-swiper">
@@ -247,7 +251,7 @@
                             <div class="commodity-data">
                                 <h4>{{ item.name }}</h4>
                                 <span>${{ item.nprice }}</span>
-                                <p>{{ item.price }}</p>
+                                <p>${{ item.price }}</p>
                             </div>
                             <div class="commodity-button">
                                 <button class="commodity-button-1" @click="UseEdit(item.id), info = true">詳細內容</button>
@@ -255,13 +259,13 @@
                             </div>
                         </div>
 
-
+                        <div class="notice">
                         <transition>
                         <div class="commodity-notice" v-show="isShow">
                             <p>已加入購物車</p>
                         </div>
                         </transition>
-
+                        </div>
 
                         <div class="gm-scene" :class="{ display_flex:edit || NowAdd || editOK || NowAddOK || removeOK}">
                             <div class="gm-commodity" :class="{ display_none:!edit}">
@@ -343,13 +347,11 @@
         <!-- 訂單 -->
         <div id="order" class="page" :class="{ display_none:page !== 'order'}">
             <div class="order-car" :class="{ display_none:false}">
-
-
                 <div class="order-commodity" v-for="(item, key, index) in Car">
                     <div class="order-img">
-                        <img :src="item.img" alt="">
+                        <img :src="item.img" alt=" " @click="UseEdit(item.id), info = true">
                     </div>
-                    <h4>{{item.name}}</h4>
+                    <h4 @click="UseEdit(item.id), info = true">{{item.name}}</h4>
                     <div class="order-quantity">
                         <a @click="removeQuantity(item.id)"><i class="fa-solid fa-minus"></i></a>
                         <p>{{item.quantity}}個</p>
@@ -358,25 +360,75 @@
                     <span>NT ${{item.total}}</span>
                     <button @click="removeCar(item.id)"><i class="fas fa-trash trash"></i></button>
                 </div>
-
-
                 <div class="car-checkout">
                     <p>總計 NT ${{totalMoney}}</p>
-                    <button>結帳</button>
+                    <button @click="pay = true">結帳</button>
                 </div>
+            </div>
 
+
+            <div id="bill" class="mall-info" :class="{ display_flex:pay}">
+            <div class="pay-home" :class="{ display_flex:pay}">
+                <!-- style="display: none;" -->
+                <div id="pay-form" action="">
+                    <p>請輸入收件資料</p>
+                    <label for="pay-name" id="name-label">姓名</label><br>
+                    <input id="pay-name" type="text" placeholder="姓名" required v-model="payname">
+                    <br>
+                    <label for="pay-address" id="address-label">地址</label><br>
+                    <input id="pay-address" type="text" placeholder="地址" required v-model="payaddress">
+                    <br>
+                    <label for="pay-email" id="email-label">信箱</label><br>
+                    <input id="pay-email" type="email" placeholder="信箱" required v-model="payemail">
+                    <br>
+                    <label for="pay-tote" id="name-label">到府時間 / 貨到付款</label><br>
+                    <select id="pay-tote" v-model="paytote">
+                        <option value="任何時間">任何時間皆可</option>
+                        <option value="1300之前">13:00之前</option>
+                        <option value="1300-1700之間">13:00-17:00之間</option>
+                    </select>
+                    <br>
+                    <label for="pay-text" id="name-label">備註</label><br>
+                    <textarea id="pay-text" v-model="paymessage"></textarea><br>
+                    <button @click="checkout()">送出訂單</button>
+                    <button @click="pay = false">取消</button>
+                </div>
+            </div>
             </div>
 
             <div class="order-search">
                 <h1>訂單查詢</h3>
                 <div>
-                    <input type="text">
-                    <button class="login-button">送出</button>
+                    <input type="text" v-model.lazy.trim="OrderSearchNumber">
+                    <button class="login-button" @click="OrderSearch() ">送出</button>
                 </div>
             </div>
+            <div class="order-order" :class="{ display_none:!OrderSearchUse}">
+                <div class="order-data-home">
+                <p>訂單編號：{{OrderSearchNumber2}}</p>
+                <p>結帳日期：{{OrderTime}}</p>
+                <p>付款金額：NT{{OrderTotal}}元</p>
+                <div class="order-data">
+                    <p>收件人：{{OrderData.name}}</p>
+                    <p>地址：{{OrderData.address}}</p>
+                    <p>信箱：{{OrderData.email}}</p>
+                    <p>收件時間：{{OrderData.tote}}</p>
+                    <p>備註：{{OrderData.message}}</p>
+                </div>
+                </div>
+                
+                <div class="order-commodity" v-for="(item, key, index) in OrderCar">
+                    <div class="order-img">
+                        <img :src="item.img" alt=" ">
+                    </div>
+                    <h4>{{item.name}}</h4>
+                    <div class="order-quantity">
+                        <p>{{item.quantity}}個</p>
+                    </div>
+                    <span>NT ${{item.total}}</span>
+                </div>
 
-            <div class="order-order" :class="{ display_none:false}">
-                我是訂單搜尋
+
             </div>
         </div>
         <!-- 登入 -->
@@ -391,7 +443,6 @@
                 <input type="password" placeholder="密碼" name="" id="bb">
                 <span>請輸入密碼！</span>
                 <button class="login-button">登入</button>
-                <a href="" class="login-register">註冊會員</a>
                 </form>
             </div>
             
@@ -407,7 +458,7 @@
                 </div>
                 <div class="footer-02">
                     <p>聯絡我們</p>
-                    <p>TEL:06-78xxxxx</p>
+                    <p>TEL:0971266373</p>
                     <p>Mail:Meow9520@gmail.com</p>
                     <p>地址:XX市XX區</p>
                 </div>
@@ -452,61 +503,7 @@
     const NewApp = createApp({
         setup(){
             // 首頁
-            const page = ref('mall')
-            const HotCard = ref([
-            {id:"A0001",
-            name:"商品1",
-            img:"images/j449_15_1.png",
-            money:100,
-            },
-            {id:"A0002",
-            name:"商品2",
-            img:"images/j449_15_2.png",
-            money:6100,
-            },
-            {id:"A0001",
-            name:"商品1",
-            img:"images/j449_15_3.png",
-            money:100,
-            },
-            {id:"A0002",
-            name:"商品2",
-            img:"images/j449_15_4.png",
-            money:6100,
-            },
-            {id:"A0001",
-            name:"商品1",
-            img:"images/j449_15_5.png",
-            money:100,
-            },
-            ])
-            const NewCard = ref([
-            {id:"A0001",
-            name:"商品1",
-            img:"images/j449_15_5.png",
-            money:100,
-            },
-            {id:"A0002",
-            name:"商品2",
-            img:"images/j449_15_4.png",
-            money:6100,
-            },
-            {id:"A0001",
-            name:"商品1",
-            img:"images/j449_15_2.png",
-            money:100,
-            },
-            {id:"A0002",
-            name:"商品2",
-            img:"images/j449_15_1.png",
-            money:6100,
-            },
-            {id:"A0001",
-            name:"商品1",
-            img:"images/j449_15_3.png",
-            money:100,
-            },
-            ])
+            const page = ref('content')
             // 首頁結束
 
             // 商品
@@ -551,7 +548,6 @@
                             snapsohtData.push(data[item])
                         }
                         Commodity.value = snapsohtData
-                        console.log('資料更新')
                     }else{
                         const snapsohtData = []
                         Commodity.value = snapsohtData
@@ -651,7 +647,89 @@
                 }    
                 totalMoney.value = total
             }
+
+
+            const pay = ref(false)
+            const payname = ref("")
+            const payaddress = ref("")
+            const payemail = ref("")
+            const paytote = ref("")
+            const paymessage = ref("")
+
+            const PayData = ref({name:"",address:"",email:"",tote:"",message:""}) 
+
+            let Today = new Date();
+            const OrderNumber = ref(0)
+            function checkout(){
+                if(Car.value.length === 0){
+                    alert("請選購商品")
+                }else if(payname.value === "" || payaddress.value === "" || payemail.value === "" || paytote.value === ""){
+                    alert("請輸入完整資料")
+                }else{
+                    PayData.value = {
+                    name:payname,
+                    address:payaddress,
+                    email:payemail,
+                    tote:paytote,
+                    message:paymessage
+                }
+                Today = new Date();
+                OrderNumber.value = String(Today.getFullYear()) + (Today.getMonth()+1) + Today.getDate() + Today.getHours()+ Today.getMinutes() + Today.getSeconds();
+                set(fireref(db,"Order/"+OrderNumber.value),{
+                    commodity:Car.value,
+                    total:totalMoney.value,
+                    time:Today.getFullYear() +"年"+ (Today.getMonth()+1) +"月"+ Today.getDate() +"日"+ Today.getHours()+"時"+ Today.getMinutes() +"分"+ Today.getSeconds()+"秒",
+                    data:PayData.value,
+                })
+                .then(()=>{
+                    alert("訂單已送出"+"，您的訂單編號為："+OrderNumber.value)
+                    Car.value = []
+                    CarQuantity.value = 0
+                    total()
+                })
+                .catch((error)=>{
+                    alert("資料無法儲存")
+                })
+                }
+            }
+
             // 購物車結束
+
+            // 訂單查詢
+            const OrderSearchNumber = ref("")
+            const OrderSearchNumber2 = ref("")
+            const OrderCar = ref([])
+            const OrderTime = ref("")
+            const OrderTotal = ref(0)
+            const OrderData = ref({})
+            const OrderSearchUse = ref(false)
+
+
+            function OrderSearch(){
+                if(OrderSearchNumber.value === ""){
+                    alert("請輸入訂單編號")
+                }else{
+                OrderSearchNumber2.value = OrderSearchNumber.value
+                const dbref = fireref(db)
+                get(child(dbref,"Order/"+OrderSearchNumber.value)).then((snapsoht)=>{
+                    OrderCar.value = snapsoht.val().commodity
+                    OrderTime.value = snapsoht.val().time
+                    OrderTotal.value = snapsoht.val().total
+                    OrderData.value = snapsoht.val().data
+                    OrderSearchUse.value = true
+                })
+                .catch((error)=>{
+                    alert("查無此訂單")
+                })
+                }
+            }
+
+
+            // 訂單查詢結束
+
+
+
+
 
 
             // 管理員功能
@@ -670,7 +748,6 @@
             function UseEdit(ID){
                 const dbref = fireref(db)
                 get(child(dbref,"Commodity/"+ID)).then((snapsoht)=>{
-                    console.log(snapsoht.val())
                     UpdataName.value = snapsoht.val().name
                     UpdataType.value = snapsoht.val().type
                     UpdataImg.value = snapsoht.val().img
@@ -683,8 +760,6 @@
                 })
             }
             function editCommodity(ID){
-                console.log(ID,"編輯")
-                
                 update(fireref(db,"Commodity/"+ID),{
                     name : UpdataName.value,
                     type : UpdataType.value,
@@ -706,7 +781,6 @@
                 // 刪除
             const removeOK = ref(false)    
             function removeCommodity(ID){
-                console.log(ID,"刪除")
                 remove(fireref(db,"Commodity/"+ID))
                 .then(()=>{
                     removeOK.value = true
@@ -725,7 +799,7 @@
             const CommodityImg = ref('')
             const CommodityPrice = ref()
             const CommodityNPrice = ref()
-            const CommodityInfo = ref()
+            const CommodityInfo = ref("")
 
             function setbase(){
                 set(fireref(db,"Commodity/"+CommodityID.value),{
@@ -740,6 +814,13 @@
                 .then(()=>{
                     NowAddOK.value = true
                     getdata()
+                    CommodityID.value = ""
+                    CommodityName.value = ""
+                    CommodityType.value = ""
+                    CommodityImg.value = ""
+                    CommodityPrice.value = 0
+                    CommodityNPrice.value = 0
+                    CommodityInfo.value = ""
                 })
                 .catch((error)=>{
                     alert("資料無法儲存")
@@ -755,11 +836,8 @@
                 timeOut = setTimeout(() => isShow.value = false, 1500)
             }
 
-
             return{
                 page,
-                HotCard,
-                NewCard,
                 Commodity,
                 type,
                 Search,
@@ -800,7 +878,23 @@
                 isShow,
                 ShowAddCar,
                 info,
-
+                checkout,
+                OrderNumber,
+                OrderSearchNumber,
+                OrderSearchNumber2,
+                OrderSearch,
+                OrderCar,
+                OrderTime,
+                OrderTotal,
+                OrderData,
+                OrderSearchUse,
+                pay,
+                PayData,
+                payname,
+                payaddress,
+                payemail,
+                paytote,
+                paymessage,
             }
         }
     }).mount("#wrapper")

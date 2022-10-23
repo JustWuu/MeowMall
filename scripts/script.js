@@ -32,4 +32,8 @@ window.onload = function(){
       },
     },
   });
+
+  const load_scene = document.querySelector('.load-scene');
+  Load = setTimeout(() => load_scene.style.display = "none", 3000)
+  
 }

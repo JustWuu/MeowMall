@@ -175,55 +175,6 @@ body {
   align-items: center;
   flex-wrap: wrap;
 }
-#mall .mall-home .mall-info {
-  display: none;
-  justify-content: center;
-  align-items: center;
-  background: rgba(121, 121, 121, 0.623);
-  width: 100%;
-  position: fixed;
-  height: 100%;
-  z-index: 999999;
-  top: 0;
-}
-#mall .mall-home .mall-info .info {
-  border: 1px solid rgb(0, 0, 0);
-  width: 300px;
-  padding: 20px 20px 5px 20px;
-  border-radius: 5px;
-  background: rgb(255, 255, 255);
-}
-#mall .mall-home .mall-info .info h2 {
-  text-align: center;
-}
-#mall .mall-home .mall-info .info h4 {
-  text-align: center;
-  margin: 5px;
-}
-#mall .mall-home .mall-info .info .info-img {
-  height: 200px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-#mall .mall-home .mall-info .info .info-img img {
-  max-width: 100%;
-  max-height: 100%;
-}
-#mall .mall-home .mall-info .info .info-price {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-wrap: nowrap;
-}
-#mall .mall-home .mall-info .info .info-price span {
-  color: red;
-  font-size: 1.5rem;
-}
-#mall .mall-home .mall-info .info .info-price p {
-  text-decoration: line-through;
-  color: rgb(138, 138, 138);
-}
 #mall .mall-home .mall-swiper {
   width: 100%;
   margin-left: auto;
@@ -324,7 +275,7 @@ body {
 #mall .mall-home .mall-catalog .commodity-catalog .commodity {
   width: 22%;
 }
-#mall .mall-home .commodity-notice {
+#mall .mall-home .notice .commodity-notice {
   position: fixed;
   right: 10px;
   top: 100px;
@@ -333,16 +284,201 @@ body {
   border-radius: 20px;
   padding: 5px;
 }
-#mall .mall-home .v-enter-active, #mall .mall-home .v-leave-active {
+#mall .mall-home .notice .v-enter-active, #mall .mall-home .notice .v-leave-active {
   transition: all 1s;
 }
-#mall .mall-home .v-enter-from, #mall .mall-home .v-leave-to {
+#mall .mall-home .notice .v-enter-from, #mall .mall-home .notice .v-leave-to {
   opacity: 0;
   right: -20px;
 }
-#mall .mall-home .v-enter-to, #mall .mall-home .v-leave-from {
+#mall .mall-home .notice .v-enter-to, #mall .mall-home .notice .v-leave-from {
   opacity: 1;
   right: 10px;
+}
+
+.mall-info {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: rgba(121, 121, 121, 0.623);
+  width: 100%;
+  position: fixed;
+  height: 100%;
+  z-index: 999999;
+  top: 0;
+}
+.mall-info .info {
+  border: 1px solid rgb(0, 0, 0);
+  width: 300px;
+  padding: 20px 20px 5px 20px;
+  border-radius: 5px;
+  background: rgb(255, 255, 255);
+}
+.mall-info .info h2 {
+  text-align: center;
+}
+.mall-info .info h4 {
+  text-align: center;
+  margin: 5px;
+}
+.mall-info .info .info-img {
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.mall-info .info .info-img img {
+  max-width: 100%;
+  max-height: 100%;
+}
+.mall-info .info .info-price {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+.mall-info .info .info-price span {
+  color: red;
+  font-size: 1.5rem;
+}
+.mall-info .info .info-price p {
+  text-decoration: line-through;
+  color: rgb(138, 138, 138);
+}
+
+.load-scene {
+  -webkit-animation-name: load;
+          animation-name: load;
+  -webkit-animation-duration: 2s;
+          animation-duration: 2s;
+  /*!
+  * Load Awesome v1.1.0 (http://github.danielcardoso.net/load-awesome/)
+  * Copyright 2015 Daniel Cardoso <@DanielCardoso>
+  * Licensed under MIT
+  */
+  /*
+   * Animations
+   */
+}
+@-webkit-keyframes load {
+  0% {
+    background: #fff;
+  }
+  50% {
+    background: #000;
+  }
+}
+@keyframes load {
+  0% {
+    background: #fff;
+  }
+  50% {
+    background: #000;
+  }
+}
+.load-scene .la-square-jelly-box,
+.load-scene .la-square-jelly-box > div {
+  position: relative;
+  box-sizing: border-box;
+}
+.load-scene .la-square-jelly-box {
+  display: block;
+  font-size: 0;
+  color: #fff;
+}
+.load-scene .la-square-jelly-box.la-dark {
+  color: #333;
+}
+.load-scene .la-square-jelly-box > div {
+  display: inline-block;
+  float: none;
+  background-color: currentColor;
+  border: 0 solid currentColor;
+}
+.load-scene .la-square-jelly-box {
+  width: 32px;
+  height: 32px;
+}
+.load-scene .la-square-jelly-box > div:nth-child(1),
+.load-scene .la-square-jelly-box > div:nth-child(2) {
+  position: absolute;
+  left: 0;
+  width: 100%;
+}
+.load-scene .la-square-jelly-box > div:nth-child(1) {
+  top: -25%;
+  z-index: 1;
+  height: 100%;
+  border-radius: 10%;
+  -webkit-animation: square-jelly-box-animate 0.6s -0.1s linear infinite;
+  animation: square-jelly-box-animate 0.6s -0.1s linear infinite;
+}
+.load-scene .la-square-jelly-box > div:nth-child(2) {
+  bottom: -9%;
+  height: 10%;
+  background: #000;
+  border-radius: 50%;
+  opacity: 0.2;
+  -webkit-animation: square-jelly-box-shadow 0.6s -0.1s linear infinite;
+  animation: square-jelly-box-shadow 0.6s -0.1s linear infinite;
+}
+.load-scene .la-square-jelly-box.la-sm {
+  width: 16px;
+  height: 16px;
+}
+.load-scene .la-square-jelly-box.la-2x {
+  width: 64px;
+  height: 64px;
+}
+.load-scene .la-square-jelly-box.la-3x {
+  width: 96px;
+  height: 96px;
+}
+@-webkit-keyframes square-jelly-box-animate {
+  17% {
+    border-bottom-right-radius: 10%;
+  }
+  25% {
+    transform: translateY(25%) rotate(22.5deg);
+  }
+  50% {
+    border-bottom-right-radius: 100%;
+    transform: translateY(50%) scale(1, 0.9) rotate(45deg);
+  }
+  75% {
+    transform: translateY(25%) rotate(67.5deg);
+  }
+  100% {
+    transform: translateY(0) rotate(90deg);
+  }
+}
+@keyframes square-jelly-box-animate {
+  17% {
+    border-bottom-right-radius: 10%;
+  }
+  25% {
+    transform: translateY(25%) rotate(22.5deg);
+  }
+  50% {
+    border-bottom-right-radius: 100%;
+    transform: translateY(50%) scale(1, 0.9) rotate(45deg);
+  }
+  75% {
+    transform: translateY(25%) rotate(67.5deg);
+  }
+  100% {
+    transform: translateY(0) rotate(90deg);
+  }
+}
+@-webkit-keyframes square-jelly-box-shadow {
+  50% {
+    transform: scale(1.25, 1);
+  }
+}
+@keyframes square-jelly-box-shadow {
+  50% {
+    transform: scale(1.25, 1);
+  }
 }
 
 .commodity {
@@ -434,63 +570,59 @@ body {
   align-items: center;
   flex-wrap: wrap;
 }
+#order #bill {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: rgba(121, 121, 121, 0.623);
+  width: 100%;
+  height: 100%;
+}
+#order #bill .pay-home {
+  padding: 5px;
+  width: 300px;
+  height: auto;
+  background: linear-gradient(30deg, #CCFFFF, rgb(236, 115, 236));
+  flex-wrap: wrap;
+  border-radius: 5px;
+}
+#order #bill .pay-home #pay-form {
+  text-align: center;
+  width: 100%;
+}
+#order #bill .pay-home #pay-form p {
+  margin: 0 0 10px 0;
+}
+#order #bill .pay-home #pay-form input {
+  margin: 0 0 10px 0;
+}
+#order #bill .pay-home #pay-form select {
+  margin: 0 0 10px 0;
+}
+#order #bill .pay-home #pay-form textarea {
+  resize: none;
+}
+#order #bill .pay-home .bill-buycar {
+  width: 100%;
+}
+#order #bill .pay-home #pay-data {
+  width: 100%;
+}
+#order #bill .pay-home .ul-buy {
+  justify-content: flex-end;
+}
+#order #bill .pay-home .ul-buy .li-buy {
+  margin: 0 0 10px 0;
+  border-style: none;
+  justify-content: flex-end;
+}
+#order #bill .pay-home button {
+  margin: 0 5px 0 5px;
+}
 #order .order-car {
   width: 100%;
   border: 1px solid black;
   padding: 5px 20px 20px 20px;
-}
-#order .order-car .order-commodity {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100px;
-  border-bottom: 1px solid rgb(179, 179, 179);
-  padding: 5px;
-}
-#order .order-car .order-commodity .order-img {
-  width: 20%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-#order .order-car .order-commodity .order-img img {
-  max-width: 100%;
-  max-height: 100%;
-  cursor: pointer;
-}
-#order .order-car .order-commodity .order-quantity {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  margin: 0 60px 0 20px;
-}
-#order .order-car .order-commodity .order-quantity p {
-  margin: 5px;
-  width: auto;
-}
-#order .order-car .order-commodity .order-quantity a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-decoration: none;
-  color: black;
-  cursor: pointer;
-}
-#order .order-car .order-commodity h4 {
-  width: 20%;
-  font-size: 1.2rem;
-  margin-left: 30px;
-}
-#order .order-car .order-commodity span {
-  width: 20%;
-  font-size: 1rem;
-}
-#order .order-car .order-commodity button {
-  width: 10%;
-  background: transparent;
-  border: none;
-  cursor: pointer;
 }
 #order .order-car .car-checkout {
   margin-top: 10px;
@@ -513,6 +645,60 @@ body {
 #order .order-car .car-checkout button:hover {
   color: white;
   background: #f52727;
+}
+#order .order-commodity {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  border-bottom: 1px solid rgb(179, 179, 179);
+  padding: 5px;
+}
+#order .order-commodity .order-img {
+  width: 20%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#order .order-commodity .order-img img {
+  max-width: 100%;
+  max-height: 100%;
+  cursor: pointer;
+}
+#order .order-commodity .order-quantity {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  margin: 0 60px 0 20px;
+}
+#order .order-commodity .order-quantity p {
+  margin: 5px;
+  width: auto;
+}
+#order .order-commodity .order-quantity a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+}
+#order .order-commodity h4 {
+  width: 20%;
+  font-size: 1.2rem;
+  margin-left: 30px;
+  cursor: pointer;
+}
+#order .order-commodity span {
+  width: 20%;
+  font-size: 1rem;
+}
+#order .order-commodity button {
+  width: 10%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
 }
 #order .order-search {
   width: 100%;
@@ -554,6 +740,46 @@ body {
 }
 #order .order-order {
   width: 100%;
+  width: 100%;
+  border: 1px solid black;
+  padding: 5px 20px 20px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+#order .order-order .order-commodity {
+  margin: 10px;
+}
+#order .order-order .order-data-home {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+#order .order-order .order-data-home p {
+  text-align: center;
+  margin: 10px;
+  color: rgb(67, 46, 75);
+  font-size: 1.1rem;
+}
+#order .order-order .order-data-home .order-data {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+#order .order-order .order-data-home .order-data p {
+  margin: 10px 10px 0 10px;
+}
+#order .order-order .order-commodity {
+  width: 40%;
+}
+#order .order-order .order-commodity h4 {
+  cursor: auto;
+}
+#order .order-order .order-commodity img {
+  cursor: auto;
 }
 
 #login {
@@ -825,5 +1051,16 @@ body {
   }
   #order .order-car .order-commodity .order-img {
     display: none;
+  }
+  #order .order-order .order-data {
+    flex-wrap: wrap;
+  }
+  #order .order-order .order-data p {
+    display: block;
+    width: 100%;
+    margin: 10px;
+  }
+  #order .order-order .order-commodity {
+    width: 100%;
   }
 }/*# sourceMappingURL=style.css.map */
