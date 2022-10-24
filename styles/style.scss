@@ -348,10 +348,10 @@ body{
     top:0;
     .info{
         border: 1px solid rgb(0, 0, 0);
-        width: 300px;
         padding: 20px 20px 5px 20px;
         border-radius: 5px;
         background: rgb(255, 255, 255);
+        max-width: 500px;
         h2{
             text-align: center;
         }
@@ -924,6 +924,7 @@ body{
         padding: 5px;
         font-size: 1.3rem;
         border: 1px solid #ced4da;
+        width: 95%;
     }
     .login-button{
         padding: 5px 5px 5px 5px;
@@ -1037,6 +1038,10 @@ body{
         -webkit-box-sizing: border-box;
     }
 }
+.gm-li{
+    display: none;
+    color: red;
+}
 
 
 
@@ -1083,14 +1088,15 @@ body{
 
 
 
-.display_none{
-    display: none!important;
-}
+
 .display_flex{
     display: flex!important;
 }
 .display_inline_block{
     display:inline-block!important;
+}
+.display_none{
+    display: none!important;
 }
 
 

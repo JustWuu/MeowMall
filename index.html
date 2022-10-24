@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>黑喵的窩</title>
-
+    <meta name="description" content="黑喵的窩，甚麼都賣，甚麼都沒貨喔">
 
     <script src="https://kit.fontawesome.com/70c17f03dd.js" crossorigin="anonymous"></script>
     <link rel="icon" href="images/j449_7_1.ico"> 
@@ -41,10 +41,10 @@
                             <a href="#order" @click="page = 'order' ">我的訂單</a>
                             <p> ( {{CarQuantity}} )</p>
                         </li>
-                        <li>
+                        <li :class="{ display_none:UserMod === 'GM'}">
                             <a href="#login" @click="page = 'login' ">登入</a>
                         </li>
-                        <li style="display: none;">歡迎 ***先生！</li>
+                        <li class="gm-li" :class="{ display_inline_block:UserMod === 'GM'}">[後台模式]</li>
                     </ul>
                 </div>
             </nav>
@@ -117,7 +117,7 @@
                     <br>
                     <div class="content-text">
                          <h4>歡慶開幕</h4>
-                         <p>全館商品結帳輸入 <span>LoveMeow</span> 享85折優惠</p>
+                         <p>全館商品 <span>８折優惠中</span> ！！</p>
                          
                     </div>
                 </div>
@@ -158,7 +158,7 @@
                         <a class="content-event">
                             <div>
                             <img src="images/j401_6_3.png" alt="">
-                            <h4>不給糖就搗蛋，國際食品９折優惠中。</h4>
+                            <h4>不給糖就搗蛋，國際食品７折優惠中。</h4>
                             </div>
                         </a>
                     </div>
@@ -166,7 +166,6 @@
             </div>
         </div>
         <!-- 商品 -->
-        <!-- load畫面 flex-->
         <div class="load-scene mall-info" style="display:flex;">
             <div class="load" >
                 <div style="color: #6481e2" class="la-square-jelly-box la-dark la-2x">
@@ -267,8 +266,8 @@
                         </transition>
                         </div>
 
-                        <div class="gm-scene" :class="{ display_flex:edit || NowAdd || editOK || NowAddOK || removeOK}">
-                            <div class="gm-commodity" :class="{ display_none:!edit}">
+                        <div class="gm-scene" :class="{ display_flex:edit || NowAdd || editOK || NowAddOK || removeOK, display_none:UserMod !== 'GM'}">
+                            <div class="gm-commodity" :class="{ display_none:!edit || UserMod !== 'GM'}">
                                 <span>您正在編輯，編號：{{UpdataID}} 的商品</span>
                                 <p>商品圖片</p>
                                 <input v-model="UpdataImg" type="text">
@@ -292,7 +291,7 @@
                                 <button @click="edit = false">取消編輯</button>
                             </div>
 
-                            <div class="gm-commodity" :class="{ display_none:!NowAdd}">
+                            <div class="gm-commodity" :class="{ display_none:!NowAdd || UserMod !== 'GM'}">
                                 <span>您正在新增商品...</span>
                                 <p>商品編號</p>
                                 <input placeholder="商品編號" type="text" v-model.lazy.trim="CommodityID">
@@ -369,7 +368,6 @@
 
             <div id="bill" class="mall-info" :class="{ display_flex:pay}">
             <div class="pay-home" :class="{ display_flex:pay}">
-                <!-- style="display: none;" -->
                 <div id="pay-form" action="">
                     <p>請輸入收件資料</p>
                     <label for="pay-name" id="name-label">姓名</label><br>
@@ -434,16 +432,12 @@
         <!-- 登入 -->
         <div id="login" class="page" :class="{ display_none:page !== 'login'}">
             <div class="login-home">
-                <form action="">
                 <h3>會員登入</h3>
                 <p>會員帳號</p>
-                <input type="text" placeholder="帳號" name="" id="aa">
-                <span>請輸入帳號！</span>
+                <input type="text" placeholder="帳號" name="" id="aa" v-model.lazy="UserName">
                 <p>會員密碼</p>
-                <input type="password" placeholder="密碼" name="" id="bb">
-                <span>請輸入密碼！</span>
-                <button class="login-button">登入</button>
-                </form>
+                <input type="password" placeholder="密碼" name="" id="bb" v-model.lazy="UserPassworld">
+                <button class="login-button" @click="Login()">登入</button>
             </div>
             
         </div>
@@ -499,7 +493,7 @@
 
 
     // Vue
-    import { createApp ,ref ,watch ,onMounted} from "https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.40/vue.esm-browser.min.js"
+    import { createApp ,ref ,watch ,onMounted} from "https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.40/vue.esm-browser.prod.min.js"
     const NewApp = createApp({
         setup(){
             // 首頁
@@ -572,7 +566,7 @@
             const totalMoney = ref(0)
 
                 // 加入購物車
-            function addCar(ID){
+            function addCar(ID){     
                 const addCarCommodity = {quantity:0}
                 for(let i=0;i<Car.value.length;i++){
                     if(Car.value[i].id === ID){
@@ -698,6 +692,7 @@
             // 訂單查詢
             const OrderSearchNumber = ref("")
             const OrderSearchNumber2 = ref("")
+            const OrderSearchNumber3 = ref("")
             const OrderCar = ref([])
             const OrderTime = ref("")
             const OrderTotal = ref(0)
@@ -709,6 +704,7 @@
                 if(OrderSearchNumber.value === ""){
                     alert("請輸入訂單編號")
                 }else{
+                OrderSearchNumber3.value = OrderSearchNumber2.value
                 OrderSearchNumber2.value = OrderSearchNumber.value
                 const dbref = fireref(db)
                 get(child(dbref,"Order/"+OrderSearchNumber.value)).then((snapsoht)=>{
@@ -719,6 +715,7 @@
                     OrderSearchUse.value = true
                 })
                 .catch((error)=>{
+                    OrderSearchNumber2.value = OrderSearchNumber3.value
                     alert("查無此訂單")
                 })
                 }
@@ -734,6 +731,36 @@
 
             // 管理員功能
             const UserMod = ref('')
+
+
+
+                // 登入
+            const UserName = ref('')
+            const UserPassworld = ref('')
+            function Login(){
+                const dbref = fireref(db)
+                if(UserName.value === "" || UserPassworld.value === ""){
+                    alert("請輸入完整登入資料")
+                }else{
+                    get(child(dbref,"Mod/"+UserName.value)).then((snapsoht)=>{
+                    if(snapsoht.val() === null){
+                        alert("查無此帳戶")
+                    }else{
+                        if(snapsoht.val().data.passworld === UserPassworld.value){
+                            alert("登入成功")
+                            UserMod.value = "GM"
+                            page.value = "mall"
+                        }else{
+                            alert("密碼錯誤")
+                        }
+                    }
+                    })
+                    .catch((error)=>{
+                        alert("資料存取錯誤")
+                    })
+                }
+
+            }
 
                 // 編輯
             const edit = ref(false)
@@ -760,7 +787,8 @@
                 })
             }
             function editCommodity(ID){
-                update(fireref(db,"Commodity/"+ID),{
+                if(UserMod.value === "GM"){
+                    update(fireref(db,"Commodity/"+ID),{
                     name : UpdataName.value,
                     type : UpdataType.value,
                     img : UpdataImg.value,
@@ -775,19 +803,26 @@
                 .catch((error)=>{
                     alert("編輯失敗")
                 })
-
+                }else{
+                    alert("你不是管理員")
+                }
             }
 
                 // 刪除
             const removeOK = ref(false)    
             function removeCommodity(ID){
-                remove(fireref(db,"Commodity/"+ID))
-                .then(()=>{
-                    removeOK.value = true
-                })
-                .catch((error)=>{
-                    alert("移除失敗")
-                })
+                if(UserMod.value === "GM"){
+                    remove(fireref(db,"Commodity/"+ID))
+                    .then(()=>{
+                        removeOK.value = true
+                    })
+                    .catch((error)=>{
+                        alert("移除失敗")
+                    }) 
+                }else{
+                    alert("你不是管理員")
+                }
+
             }
 
                 // 新增商品
@@ -802,7 +837,8 @@
             const CommodityInfo = ref("")
 
             function setbase(){
-                set(fireref(db,"Commodity/"+CommodityID.value),{
+                if(UserMod.value === "GM"){
+                    set(fireref(db,"Commodity/"+CommodityID.value),{
                     id:CommodityID.value,
                     name:CommodityName.value,
                     type:CommodityType.value,
@@ -825,6 +861,10 @@
                 .catch((error)=>{
                     alert("資料無法儲存")
                 })
+                }else{
+                    alert("你不是管理員")
+                }
+
             }
             // 管理員功能
 
@@ -895,6 +935,9 @@
                 payemail,
                 paytote,
                 paymessage,
+                UserName,
+                UserPassworld,
+                Login,
             }
         }
     }).mount("#wrapper")
