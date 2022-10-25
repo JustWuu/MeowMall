@@ -432,10 +432,10 @@
         <!-- 登入 -->
         <div id="login" class="page" :class="{ display_none:page !== 'login'}">
             <div class="login-home">
-                <h3>會員登入</h3>
-                <p>會員帳號</p>
+                <h3>後台登入</h3>
+                <p>帳號</p>
                 <input type="text" placeholder="帳號" name="" id="aa" v-model.lazy="UserName">
-                <p>會員密碼</p>
+                <p>密碼</p>
                 <input type="password" placeholder="密碼" name="" id="bb" v-model.lazy="UserPassworld">
                 <button class="login-button" @click="Login()">登入</button>
             </div>
@@ -452,7 +452,7 @@
                 </div>
                 <div class="footer-02">
                     <p>聯絡我們</p>
-                    <p>TEL:0971266373</p>
+                    <p>TEL:06-0022266</p>
                     <p>Mail:Meow9520@gmail.com</p>
                     <p>地址:XX市XX區</p>
                 </div>
@@ -680,6 +680,7 @@
                     Car.value = []
                     CarQuantity.value = 0
                     total()
+                    pay.value = false
                 })
                 .catch((error)=>{
                     alert("資料無法儲存")

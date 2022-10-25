@@ -4,10 +4,10 @@ window.onload = function(){
       nextEl: ".swiper-button-next",
       prevEl: ".swiper-button-prev",
     },
-    // autoplay:{
-    //   delay:3000,
-    //   disableOnInteraction: false,
-    // },
+    autoplay:{
+      delay:3000,
+      disableOnInteraction: false,
+    },
   });
   
   var swiper2 = new Swiper(".mySwiper2", {
@@ -17,10 +17,10 @@ window.onload = function(){
       el: ".swiper-pagination",
       clickable: true,
     },
-    // autoplay:{
-    //   delay:5000,
-    //   disableOnInteraction: false,
-    // },
+    autoplay:{
+      delay:5000,
+      disableOnInteraction: false,
+    },
   });
 
   var swiper3 = new Swiper(".mySwiper3", {
